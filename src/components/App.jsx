@@ -1,6 +1,6 @@
-import styles from '../css/components/App.module.scss';
-import Header from './Header';
-import Section from './Section';
+import styles from "../css/components/App.module.scss";
+import Header from "./header/Header";
+import Section from "./section/Section";
 
 function App() {
     return (

@@ -1,10 +1,12 @@
+@import '../../variable.scss';
+
 .logo {
     font-size: 1.8rem;
     font-weight: bold;
 
     svg {
         vertical-align: middle;
-        color: #4361cf;
+        color: $defalt-logo-color;
         margin-right: 10px;
     }
 }

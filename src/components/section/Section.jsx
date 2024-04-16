@@ -1,6 +1,6 @@
-import React from 'react';
-import HeadLine from './HeadLine';
-import News from './News';
+import React from "react";
+import HeadLine from "./HeadLine";
+import News from "./News";
 
 export default function Section() {
     return (
