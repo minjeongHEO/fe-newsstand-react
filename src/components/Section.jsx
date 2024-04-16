@@ -1,5 +1,12 @@
 import React from 'react';
+import HeadLine from './HeadLine';
+import News from './News';
 
 export default function Section() {
-  return <div>섹션입니다</div>;
+    return (
+        <>
+            <HeadLine></HeadLine>
+            <News></News>
+        </>
+    );
 }
