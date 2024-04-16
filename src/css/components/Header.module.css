@@ -1,0 +1,8 @@
+.container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center; /* 세로 방향 가운데 정렬 */
+    height: 104px;
+    margin: 103px 98px 0px 98px;
+}

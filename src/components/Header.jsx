@@ -1,5 +1,13 @@
 import React from 'react';
+import Logo from './Logo';
+import Date from './Date';
+import styles from '../css/components/Header.module.css';
 
 export default function Header() {
-  return <div>헤더입니다</div>;
+  return (
+    <header className={styles.container}>
+      <Logo />
+      <Date />
+    </header>
+  );
 }
