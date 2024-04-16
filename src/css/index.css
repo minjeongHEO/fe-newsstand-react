@@ -1,0 +1,35 @@
+@import './reset.css';
+
+@font-face {
+  font-family: 'Pretendard'; /* 사용하고 싶은 font-family명을 지정 */
+  src: url('../assets/font/PretendardVariable.ttf') format('opentype'); /* 폰트파일 불러오기 */
+}
+
+:root {
+  font-family: Pretendard, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  color: #14212b;
+}
+
+/* body * {
+  font-family: 'Pretendard';
+  color: #14212b;
+} */
+
+li {
+  list-style: none;
+}
+
+#wrap {
+  margin: 0 auto;
+  max-width: 1300px;
+  min-width: 650px;
+  /* background-color: aliceblue; */
+}
