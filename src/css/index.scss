@@ -1,0 +1,32 @@
+@import './reset.css';
+
+@font-face {
+    font-family: 'Pretendard'; /* 사용하고 싶은 font-family명을 지정 */
+    src: url('../assets/font/PretendardVariable.ttf') format('opentype'); /* 폰트파일 불러오기 */
+}
+
+/* 전역 Sass 변수 정의 */
+$defalt-font-color: #14212b;
+
+:root {
+    font-family: Pretendard;
+    line-height: 1.5;
+    font-weight: 400;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    color: $defalt-font-color;
+}
+
+li {
+    list-style: none;
+}
+
+#wrap {
+    margin: 0 auto;
+    max-width: 1300px;
+    min-width: 650px;
+    /* background-color: aliceblue; */
+}
