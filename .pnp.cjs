@@ -36,6 +36,7 @@ const RAW_RUNTIME_STATE =
           ["json-server", "npm:1.0.0-alpha.23"],\
           ["react", "npm:18.2.0"],\
           ["react-dom", "virtual:76891f8963e2f9663c0c48b82a8869859ee470624928d7fd58de94012455567567ab5c0fb10a806c7800581d57dfd809a4c417003a9f51d72f2fc2fc17797938#npm:18.2.0"],\
+          ["sass", "npm:1.75.0"],\
           ["vite", "virtual:76891f8963e2f9663c0c48b82a8869859ee470624928d7fd58de94012455567567ab5c0fb10a806c7800581d57dfd809a4c417003a9f51d72f2fc2fc17797938#npm:5.2.8"]\
         ],\
         "linkType": "SOFT"\
@@ -2452,6 +2453,7 @@ const RAW_RUNTIME_STATE =
           ["json-server", "npm:1.0.0-alpha.23"],\
           ["react", "npm:18.2.0"],\
           ["react-dom", "virtual:76891f8963e2f9663c0c48b82a8869859ee470624928d7fd58de94012455567567ab5c0fb10a806c7800581d57dfd809a4c417003a9f51d72f2fc2fc17797938#npm:18.2.0"],\
+          ["sass", "npm:1.75.0"],\
           ["vite", "virtual:76891f8963e2f9663c0c48b82a8869859ee470624928d7fd58de94012455567567ab5c0fb10a806c7800581d57dfd809a4c417003a9f51d72f2fc2fc17797938#npm:5.2.8"]\
         ],\
         "linkType": "SOFT"\
@@ -2861,6 +2863,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../../../Users/heominjeong/AppData/Local/Yarn/Berry/cache/ignore-npm-5.3.1-f6947c5df7-10c0.zip/node_modules/ignore/",\
         "packageDependencies": [\
           ["ignore", "npm:5.3.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["immutable", [\
+      ["npm:4.3.5", {\
+        "packageLocation": "../../../../Users/heominjeong/AppData/Local/Yarn/Berry/cache/immutable-npm-4.3.5-5958499808-10c0.zip/node_modules/immutable/",\
+        "packageDependencies": [\
+          ["immutable", "npm:4.3.5"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4245,6 +4256,18 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["sass", [\
+      ["npm:1.75.0", {\
+        "packageLocation": "../../../../Users/heominjeong/AppData/Local/Yarn/Berry/cache/sass-npm-1.75.0-d06f84fbd4-10c0.zip/node_modules/sass/",\
+        "packageDependencies": [\
+          ["sass", "npm:1.75.0"],\
+          ["chokidar", "npm:3.6.0"],\
+          ["immutable", "npm:4.3.5"],\
+          ["source-map-js", "npm:1.2.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["scheduler", [\
       ["npm:0.23.0", {\
         "packageLocation": "../../../../Users/heominjeong/AppData/Local/Yarn/Berry/cache/scheduler-npm-0.23.0-a379a6bc3b-10c0.zip/node_modules/scheduler/",\
@@ -4792,7 +4815,7 @@ const RAW_RUNTIME_STATE =
           ["lightningcss", null],\
           ["postcss", "npm:8.4.38"],\
           ["rollup", "npm:4.14.3"],\
-          ["sass", null],\
+          ["sass", "npm:1.75.0"],\
           ["stylus", null],\
           ["sugarss", null],\
           ["terser", null]\
