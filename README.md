@@ -37,6 +37,7 @@ props drilling 문제가 보이면 `Context API`를 적용해본다.
 -   [x] React `useState `,`useReducer`,`ContextAPI` 개념 공부
 -   [x] 메인화면 컴포넌트 설계
 -   [x] 메인화면 header - 초단위 날짜 기능 구현
+-   [ ] 메인화면 레이아웃 그리기 - 헤드라인
 -   [ ] 메인화면 레이아웃 그리기 - 그리드
 
 -   [ ] 메인화면 레이아웃 그리기 - 리스트

@@ -8,7 +8,7 @@ function App() {
         <div id={styles.wrap}>
             <Header />
             <main>
-                <HeadLine />
+                <HeadLine count={2} />
                 <News />
             </main>
         </div>
