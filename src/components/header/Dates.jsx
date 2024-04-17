@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import style from '../../css/components/header/Dates.module.scss';
+import style from './Dates.module.scss';
 export default function Dates() {
     const [date, setDate] = useState('🕓');
 
