@@ -1,11 +1,11 @@
-import styles from './LineNews.module.scss';
+import styles from './HeadLineBox.module.scss';
 
 //test
-export default function LineNews({ props }) {
+export default function HeadLineBox({ props }) {
     return (
-        <div className={`styles.headline__contents styles.section${props}`}>
-            <div className={styles.headline__press_name}>
-                <div className={styles.headline__rolling_box}>
+        <div className={`${styles.contents} ${styles.section}${props}`}>
+            <div className={styles.press_name}>
+                <div className={styles.rolling_box}>
                     <div className={styles.pre_text}>
                         <a href="https://news.naver.com/main/list.naver?mode=LPOD&mid=sec&sid1=001&sid2=140&oid=001&isYeonhapFlash=Y" target="_blank">
                             연합뉴스
@@ -23,8 +23,8 @@ export default function LineNews({ props }) {
                     </div>
                 </div>
             </div>
-            <div className={styles.headline__news}>
-                <div className={styles.headline__rolling_box}>
+            <div className={styles.news}>
+                <div className={styles.rolling_box}>
                     <div className={styles.pre_text}>
                         <a
                             href="https://news.naver.com/main/list.naver?mode=LPOD&mid=sec&sid1=001&sid2=140&oid=001&isYeonhapFlash=Y&aid=0014558087"

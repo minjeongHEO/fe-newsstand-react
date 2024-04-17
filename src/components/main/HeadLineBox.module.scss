@@ -1,4 +1,4 @@
-.headline__container {
+.container {
     margin: 2px 98px 2px 98px;
     display: flex;
     flex-flow: row wrap;
@@ -7,7 +7,7 @@
     height: 100px;
 }
 
-.headline__contents {
+.contents {
     display: flex;
     align-items: center;
     width: 48%;
@@ -17,12 +17,12 @@
     font-size: 18px;
 }
 
-.headline__press_name {
+.press_name {
     font-weight: bold;
     width: 20%;
 }
 
-.headline__news {
+.news {
     width: 80%;
     a {
         display: block;
@@ -41,7 +41,7 @@
     font-weight: bold;
 }
 
-.headline__rolling_box {
+.rolling_box {
     overflow: hidden;
     display: flex;
     flex-direction: column;
