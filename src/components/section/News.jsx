@@ -1,5 +1,8 @@
 import React from 'react';
+import useNewsData from '../../hooks/useNewsdata';
 
 export default function News() {
-    return <div>뉴스입니다</div>;
+    const [newsData, error] = useNewsData({ type: 'press' });
+
+    return <div></div>;
 }
