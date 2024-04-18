@@ -1,19 +1,14 @@
-import useNewsData from '../../hooks/useNewsdata';
 import styles from './HeadLineBox.module.scss';
-import RollingText from './RollingText';
+import RollingBox from './RollingBox';
 
-//test
-export default function HeadLineBox({ props }) {
-    //fetch
-    const [data, error] = useNewsData({ type: 'headline' });
-
+export default function HeadLineBox({ section, divideData }) {
     return (
-        <div className={`${styles.contents} ${styles.section}${props}`}>
+        <div className={`${styles.contents} ${styles.section}${section}`}>
             <div className={styles.press_name}>
-                <RollingText newsData={data} type="press" />
+                <RollingBox newsData={divideData[section]} type="press" />
             </div>
             <div className={styles.news}>
-                <RollingText newsData={data} type="news" />
+                <RollingBox newsData={divideData[section]} type="news" />
             </div>
         </div>
     );
