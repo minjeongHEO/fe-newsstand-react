@@ -8,7 +8,9 @@
 }
 
 .contents {
-    display: flex;
+    // display: flex;
+    // overflow: hidden;
+    height: 40px;
     align-items: center;
     width: 48%;
     min-width: 450px;
@@ -42,22 +44,13 @@
 }
 
 .rolling_box {
-    overflow: hidden;
+    // overflow: hidden;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+    margin: 12px 0px;
 
-    .pre_text {
-        position: relative;
-        top: -20px;
-    }
-    .cur_text {
-        position: relative;
-    }
-    .next_text {
-        position: relative;
-        top: 20px;
-    }
     a {
         text-decoration: none;
     }
@@ -82,7 +75,7 @@
         transform: translateY(0);
     }
     to {
-        transform: translateY(-200%);
+        transform: translateY(-170%);
     }
 }
 
