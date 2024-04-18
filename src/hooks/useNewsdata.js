@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
  * @returns {Array} - [json데이터, error]
  */
 export default function useNewsData({ type }) {
-    const [error, setError] = useState('');
+    const [error, setError] = useState();
     const [newsData, setNewsData] = useState(null);
 
     useEffect(() => {
