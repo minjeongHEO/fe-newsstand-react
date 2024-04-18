@@ -8,8 +8,7 @@
 }
 
 .contents {
-    // display: flex;
-    // overflow: hidden;
+    overflow: hidden;
     height: 40px;
     align-items: center;
     width: 48%;
@@ -44,7 +43,7 @@
 }
 
 .rolling_box {
-    // overflow: hidden;
+    overflow: hidden;
     display: flex;
     flex-direction: row;
     align-items: center;
