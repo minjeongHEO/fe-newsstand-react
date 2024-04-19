@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import styles from './HeadLineBox.module.scss';
-import RollingBox from './RollingBox';
 
 export default function HeadLineBox({ section, divideData }) {
     if (divideData.length === 0) return;
