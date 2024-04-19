@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import useNewsData from '../../hooks/useNewsdata';
+import NavTab from './NavTab';
 
 export default function News() {
     const [newsData, error] = useNewsData({ type: 'news' });
+    const [tabType, setTabType] = useState({ subscribe: 'all', view: 'grid' });
+
     const [gridData, setGridData] = useState([]);
+
+    //
 
     useEffect(() => {
         // 전체 언론사 && 그리드뷰(뷰타입state는 백로그)
@@ -31,5 +36,9 @@ export default function News() {
         // 최대 24개 * 4페이지  = 96개
     };
 
-    return <div>뉴스</div>;
+    return (
+        <div>
+            <NavTab />
+        </div>
+    );
 }
