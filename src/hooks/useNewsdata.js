@@ -13,7 +13,7 @@ export default function useNewsData({ type }) {
         setError(undefined);
         let name = '';
         if (type === 'headline') name = 'headlineData';
-        if (type === 'press') name = 'pressData';
+        if (type === 'news') name = 'news';
         const filePath = `data/${name}.json`;
 
         const fetchData = async () => {
