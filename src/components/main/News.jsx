@@ -8,7 +8,13 @@ export default function News() {
 
     const [gridData, setGridData] = useState([]);
 
-    //
+    const setOnClick = (e) => {
+        const type = e.target.id;
+        if (type === 'all-press-tab') setTabType((prev) => ({ ...prev, subscribe: 'all' }));
+        if (type === 'my-press-tab') setTabType((prev) => ({ ...prev, subscribe: 'my' }));
+        if (type === 'list-view-tab') setTabType((prev) => ({ ...prev, view: 'list' }));
+        if (type === 'grid-view-tab') setTabType((prev) => ({ ...prev, view: 'grid' }));
+    };
 
     useEffect(() => {
         // 전체 언론사 && 그리드뷰(뷰타입state는 백로그)
@@ -38,7 +44,7 @@ export default function News() {
 
     return (
         <div>
-            <NavTab />
+            <NavTab setOnClick={setOnClick} />
         </div>
     );
 }
