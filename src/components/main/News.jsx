@@ -5,15 +5,18 @@ import NavTab from './NavTab';
 export default function News() {
     const [newsData, error] = useNewsData({ type: 'news' });
     const [tabType, setTabType] = useState({ subscribe: 'all', view: 'grid' });
-
     const [gridData, setGridData] = useState([]);
+
+    const changeTabType = {
+        'all-press-tab': () => setTabType((prev) => ({ ...prev, subscribe: 'all' })),
+        'my-press-tab': () => setTabType((prev) => ({ ...prev, subscribe: 'my' })),
+        'list-view-tab': () => setTabType((prev) => ({ ...prev, view: 'list' })),
+        'grid-view-tab': () => setTabType((prev) => ({ ...prev, view: 'grid' })),
+    };
 
     const setOnClick = (e) => {
         const type = e.target.id;
-        if (type === 'all-press-tab') setTabType((prev) => ({ ...prev, subscribe: 'all' }));
-        if (type === 'my-press-tab') setTabType((prev) => ({ ...prev, subscribe: 'my' }));
-        if (type === 'list-view-tab') setTabType((prev) => ({ ...prev, view: 'list' }));
-        if (type === 'grid-view-tab') setTabType((prev) => ({ ...prev, view: 'grid' }));
+        if (changeTabType[type]) changeTabType[type]();
     };
 
     useEffect(() => {
