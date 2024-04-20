@@ -47,7 +47,7 @@ export default function News() {
 
     return (
         <div>
-            <NavTab setOnClick={setOnClick} />
+            <NavTab setOnClick={setOnClick} tabType={tabType} />
         </div>
     );
 }
