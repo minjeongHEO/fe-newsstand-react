@@ -37,8 +37,8 @@ props drilling 문제가 보이면 `Context API`를 적용해본다.
 -   [x] React `useState `,`useReducer`,`ContextAPI` 개념 공부
 -   [x] 메인화면 컴포넌트 설계
 -   [x] 메인화면 header - 초단위 날짜 기능 구현
--   [ ] 메인화면 레이아웃 그리기 - 헤드라인
--   [ ] 메인화면 레이아웃 그리기 - 그리드
+-   [x] 메인화면 레이아웃 그리기 - 헤드라인
+-   [x] 메인화면 레이아웃 그리기 - 그리드
 
 -   [ ] 메인화면 레이아웃 그리기 - 리스트
 -   [ ] 메인화면 nav - 뉴스 롤링 기능
@@ -52,3 +52,29 @@ props drilling 문제가 보이면 `Context API`를 적용해본다.
 ~~📓 [Wiki Link](https://github.com/minjeongHEO/fe-newsstand/wiki/%5BNews-Stand%5D-%EC%8B%A4%EC%88%98,-%EA%B3%A0%EB%AF%BC-%EC%82%AC%ED%95%AD,-%EA%B0%9C%EB%85%90-%EC%A0%95%EB%A6%AC-%F0%9F%93%93)~~
 
 <br>
+
+[Mermaid Flowcharts - Basic Syntax](https://mermaid.js.org/syntax/flowchart.html)
+
+```mermaid
+graph TD;
+    A(main.jsx)
+
+    A-->B(App.jsx);
+
+    B-->C(Header.jsx);
+    B-- gridCount={2} -->D(HeadLine.jsx);
+    B-- row={4} col={6} maxPage={4} -->E(News.jsx);
+
+    C-->F(Logo.jsx)
+    C-->G(Dates.jsx)
+
+    D-->H(HeadLineBox.jsx * gridCount)
+
+    E-->L(NavTab.jsx)
+    E-->I(GridNews.jsx)
+    E-->J(ListNews.jsx)
+
+    I-->K(GridLine.jsx)
+
+
+```
