@@ -9,13 +9,19 @@ export default function GridLine({ row, col }) {
         const gridLineContainer = containerRef.current;
         if (!gridLineContainer) return;
 
-        const heigth = gridLineContainer.offsetHeight;
-        const width = gridLineContainer.offsetWidth;
+        const resizeObserver = new ResizeObserver((entries) => {
+            const entry = entries[0];
+            if (!entry) return;
+            const { inlineSize: width, blockSize: height } = entry.contentBoxSize[0];
 
-        const newRowStyles = Array.from({ length: row - 1 }).map((_, idx) => ({ top: `${(heigth / row) * (idx + 1)}px` }));
-        const newColStyles = Array.from({ length: col - 1 }).map((_, idx) => ({ left: `${(width / col) * (idx + 1)}px` }));
+            const newRowStyles = Array.from({ length: row - 1 }).map((_, idx) => ({ top: `${(height / row) * (idx + 1)}px` }));
+            const newColStyles = Array.from({ length: col - 1 }).map((_, idx) => ({ left: `${(width / col) * (idx + 1)}px` }));
+            setLineStyles({ rows: newRowStyles, cols: newColStyles });
+        });
 
-        setLineStyles({ rows: newRowStyles, cols: newColStyles });
+        resizeObserver.observe(gridLineContainer);
+
+        return () => resizeObserver.unobserve(gridLineContainer);
     }, [row, col]);
 
     return (
