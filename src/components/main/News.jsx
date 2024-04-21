@@ -9,6 +9,7 @@ export default function News({ row, col, maxPage }) {
     const [newsData, error] = useNewsData({ type: 'news' });
     const [tabType, setTabType] = useState({ subscribe: 'all', view: 'grid' });
     const [gridData, setGridData] = useState([]);
+    const [page, setPage] = useState(0);
 
     const changeTabType = {
         'all-press-tab': () => setTabType((prev) => ({ ...prev, subscribe: 'all' })),
@@ -58,7 +59,7 @@ export default function News({ row, col, maxPage }) {
         <div>
             <NavTab setOnClick={setOnClick} tabType={tabType} />
             <div className={styles.media__container}>
-                {tabType.view === 'grid' ? <GridNews row={row} col={col} /> : ''}
+                {tabType.view === 'grid' && gridData[page] ? <GridNews row={row} col={col} newsData={gridData} page={page} /> : ''}
                 {tabType.view === 'list' ? <ListNews /> : ''}
             </div>
         </div>

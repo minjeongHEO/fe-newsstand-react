@@ -25,7 +25,7 @@ export default function GridLine({ row, col }) {
     }, [row, col]);
 
     return (
-        <div ref={containerRef} className={styles.gridContainer}>
+        <div ref={containerRef} className={styles['gridLine_Container']}>
             {lineStyles.rows.map((eachStyle, idx) => (
                 <i key={`row-${idx}`} className={`${styles['gridLine']} ${styles['gridLine_row']}`} style={eachStyle}></i>
             ))}
