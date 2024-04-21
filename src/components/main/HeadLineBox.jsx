@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import styles from './HeadLineBox.module.scss';
 
 export default function HeadLineBox({ section, divideData }) {
-    if (divideData.length === 0) return;
-
     const dataLength = divideData[section].length;
     const animationDuration = 3000; // 애니메이션 지속 시간 (3초)
     const [order, setOrder] = useState([0, 1, 2]);
@@ -22,8 +20,12 @@ export default function HeadLineBox({ section, divideData }) {
         <div className={`${styles.contents} ${styles.section}${section}`}>
             {order.map((contentIndex, idx) => {
                 const content = divideData[section][contentIndex];
+                if (!content) return;
                 return (
-                    <div key={idx} className={`${styles.rolling_box} ${toggleAni ? styles.text_move_up_paused : styles.text_move_up}`}>
+                    <div
+                        key={`${section}-${idx}`}
+                        className={`${styles.rolling_box} ${toggleAni ? styles.text_move_up_paused : styles.text_move_up}`}
+                    >
                         <div className={styles.press_name}>
                             <a href={content.newsLink} target="_blank">
                                 {content.newsName}
@@ -40,3 +42,4 @@ export default function HeadLineBox({ section, divideData }) {
         </div>
     );
 }
+HeadLineBox.__isStatic = true;

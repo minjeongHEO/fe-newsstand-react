@@ -29,10 +29,12 @@ export default function HeadLine({ gridCount }) {
     return (
         <section>
             <div className={styles.container}>
-                {Array.from({ length: gridCount }).map((_, idx) => (
-                    <HeadLineBox key={idx} section={idx} divideData={divideData} />
-                ))}
+                {divideData.length > 0
+                    ? Array.from({ length: gridCount }).map((_, idx) => <HeadLineBox key={idx} section={idx} divideData={divideData} />)
+                    : ''}
             </div>
         </section>
     );
 }
+
+HeadLine.__isStatic = true;
