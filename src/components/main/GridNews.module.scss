@@ -21,7 +21,8 @@
     }
 
     div:hover {
-        background-color: $default-hover-color;
+        // background-color: $default-hover-color;
+        background-color: red;
 
         .media__grid_type__news_logo {
             visibility: hidden;
@@ -38,6 +39,9 @@
 
     .media__grid_type__news_logo {
         position: relative;
+        height: auto;
+        width: 7vh;
+        max-height: 30px;
     }
     .media__grid_type__subscribe_btn {
         visibility: hidden;

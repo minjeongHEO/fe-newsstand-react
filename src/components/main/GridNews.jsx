@@ -16,7 +16,7 @@ export default function GridNews({ row, col, newsData, page }) {
                 {newsData[page].map((press) => (
                     <div key={press.id}>
                         <a href="#" className={styles['media__subscription-news-view']}>
-                            <img src={press.logoImageSrc} alt={press.pressName} className={styles['media__grid_type__news_logo']} height="20"></img>
+                            <img src={press.logoImageSrc} alt={press.pressName} className={styles['media__grid_type__news_logo']}></img>
                         </a>
                     </div>
                 ))}
