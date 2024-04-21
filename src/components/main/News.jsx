@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import useNewsData from '../../hooks/useNewsdata';
 import NavTab from './NavTab';
+import GridNews from './GridNews';
+import ListNews from './ListNews';
 
-export default function News() {
+export default function News({ row, col, maxPage }) {
     const [newsData, error] = useNewsData({ type: 'news' });
     const [tabType, setTabType] = useState({ subscribe: 'all', view: 'grid' });
     const [gridData, setGridData] = useState([]);
@@ -19,12 +21,10 @@ export default function News() {
         if (changeTabType[type]) changeTabType[type]();
     };
 
-    useEffect(() => {
-        // 전체 언론사 && 그리드뷰(뷰타입state는 백로그)
-        if (newsData && !error) {
-            getgridData('all');
-        }
-    }, [newsData, error]);
+    const sliceData = (elementCount, data) => {
+        let totalPage = Math.ceil(data.length / elementCount);
+        return Array.from({ length: totalPage }, (_, idx) => data.slice(idx * elementCount, (idx + 1) * elementCount));
+    };
 
     /**
      * @param {String} type - 데이터의 유형을 지정한다.
@@ -40,14 +40,27 @@ export default function News() {
             return { id: e.id, pressName: e.pressName, logoImageSrc: e.logoImageSrc };
         });
 
-        setGridData(filterData);
+        const elementCount = row * col;
+        const slicedData = sliceData(elementCount, filterData);
+        const maxPageData = slicedData.slice(0, maxPage);
+
+        setGridData(maxPageData);
 
         // 최대 24개 * 4페이지  = 96개
     };
 
+    useEffect(() => {
+        // 전체 언론사 && 그리드뷰(뷰타입state는 백로그)
+        if (newsData && !error) {
+            getgridData('all');
+        }
+    }, [newsData, error]);
+
     return (
         <div>
             <NavTab setOnClick={setOnClick} tabType={tabType} />
+            {tabType.view === 'grid' ? <GridNews row={row} col={col} /> : ''}
+            {tabType.view === 'list' ? <ListNews /> : ''}
         </div>
     );
 }

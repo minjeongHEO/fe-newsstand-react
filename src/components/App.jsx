@@ -9,7 +9,7 @@ function App() {
             <Header />
             <main>
                 <HeadLine gridCount={2} />
-                <News />
+                <News row={4} col={6} maxPage={4} />
             </main>
         </div>
     );
