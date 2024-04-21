@@ -1,3 +1,5 @@
+@import '../variable.scss';
+
 .container {
     margin: 2px 98px 2px 98px;
     display: flex;
@@ -13,8 +15,8 @@
     align-items: center;
     width: 48%;
     min-width: 450px;
-    outline: solid 2px #d2dae0;
-    background-color: #f6f7f9;
+    outline: solid 2px $grid-line-color;
+    background-color: $default-bg-color;
     font-size: 18px;
 }
 
