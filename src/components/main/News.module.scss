@@ -1,0 +1,10 @@
+@import '../variable.scss';
+
+.media__container {
+    margin: 2px 98px 2px 98px;
+    height: 388px;
+    align-items: center;
+    position: relative;
+
+    border: solid 2px $grid-line-color;
+}

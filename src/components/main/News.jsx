@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import styles from './News.module.scss';
 import useNewsData from '../../hooks/useNewsdata';
 import NavTab from './NavTab';
 import GridNews from './GridNews';
@@ -39,14 +40,11 @@ export default function News({ row, col, maxPage }) {
         const filterData = data.map((e) => {
             return { id: e.id, pressName: e.pressName, logoImageSrc: e.logoImageSrc };
         });
-
         const elementCount = row * col;
         const slicedData = sliceData(elementCount, filterData);
         const maxPageData = slicedData.slice(0, maxPage);
 
         setGridData(maxPageData);
-
-        // 최대 24개 * 4페이지  = 96개
     };
 
     useEffect(() => {
@@ -59,8 +57,10 @@ export default function News({ row, col, maxPage }) {
     return (
         <div>
             <NavTab setOnClick={setOnClick} tabType={tabType} />
-            {tabType.view === 'grid' ? <GridNews row={row} col={col} /> : ''}
-            {tabType.view === 'list' ? <ListNews /> : ''}
+            <div className={styles.media__container}>
+                {tabType.view === 'grid' ? <GridNews row={row} col={col} /> : ''}
+                {tabType.view === 'list' ? <ListNews /> : ''}
+            </div>
         </div>
     );
 }

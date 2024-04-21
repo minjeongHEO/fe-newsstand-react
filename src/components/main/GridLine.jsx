@@ -1,14 +1,31 @@
+import { useEffect, useRef, useState } from 'react';
 import styles from './GridLine.module.scss';
 
 export default function GridLine({ row, col }) {
+    const containerRef = useRef(null);
+    const [lineStyles, setLineStyles] = useState({ rows: [], cols: [] });
+
+    useEffect(() => {
+        const gridLineContainer = containerRef.current;
+        if (!gridLineContainer) return;
+
+        const heigth = gridLineContainer.offsetHeight;
+        const width = gridLineContainer.offsetWidth;
+
+        const newRowStyles = Array.from({ length: row - 1 }).map((_, idx) => ({ top: `${(heigth / row) * (idx + 1)}px` }));
+        const newColStyles = Array.from({ length: col - 1 }).map((_, idx) => ({ left: `${(width / col) * (idx + 1)}px` }));
+
+        setLineStyles({ rows: newRowStyles, cols: newColStyles });
+    }, [row, col]);
+
     return (
-        <>
-            {Array.from({ length: row - 1 }).map(() => (
-                <i className={styles.gridLine_row}></i>
+        <div ref={containerRef} className={styles.gridContainer}>
+            {lineStyles.rows.map((eachStyle, idx) => (
+                <i key={`row-${idx}`} className={`${styles['gridLine']} ${styles['gridLine_row']}`} style={eachStyle}></i>
             ))}
-            {Array.from({ length: col - 1 }).map(() => (
-                <i className={styles.gridLine_col}></i>
+            {lineStyles.cols.map((eachStyle, idx) => (
+                <i key={`col-${idx}`} className={`${styles['gridLine']} ${styles['gridLine_col']}`} style={eachStyle}></i>
             ))}
-        </>
+        </div>
     );
 }
