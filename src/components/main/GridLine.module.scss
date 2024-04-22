@@ -9,14 +9,14 @@
 .gridLine {
     position: absolute;
     background-color: $grid-line-color;
-    z-index: 2;
+    z-index: 1;
 }
 .gridLine_row {
     width: 100%;
-    height: 2px;
+    height: 1px;
     left: 0px;
 }
 .gridLine_col {
     height: 100%;
-    width: 2px;
+    width: 1px;
 }
