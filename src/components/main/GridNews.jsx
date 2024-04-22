@@ -23,6 +23,7 @@ export default function GridNews({ newsData, page, setPage }) {
                         <a href="#" className={styles['media__subscription-news-view']}>
                             <img src={press.logoImageSrc} alt={press.pressName} className={styles['media__grid_type__news_logo']}></img>
                         </a>
+                        <button className={styles['media__grid_type__subscribe_btn']}>+ 구독하기</button>
                     </div>
                 ))}
             </div>

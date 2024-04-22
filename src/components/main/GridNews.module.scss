@@ -13,7 +13,7 @@
 }
 
 .media__grid_type__container {
-    z-index: 2;
+    z-index: 5;
     div {
         display: flex;
         flex-direction: column;
@@ -22,8 +22,7 @@
     }
 
     div:hover {
-        // background-color: $default-hover-color;
-        background-color: red;
+        background-color: $default-hover-color;
 
         .media__grid_type__news_logo {
             visibility: hidden;
@@ -51,8 +50,8 @@
         border: solid 2px $grid-line-color;
         border-radius: 30px;
         color: $default-deselect-color;
-        font-size: 10pt;
-        padding: 5px;
+        font-size: 0.7rem;
+        padding: 0.3rem;
 
         cursor: pointer;
     }
