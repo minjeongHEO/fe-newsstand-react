@@ -12,13 +12,25 @@ export default function News() {
     const [newsData, error] = useNewsData({ type: 'news' });
     const [tabType, setTabType] = useState({ subscribe: 'all', view: 'grid' });
     const [gridData, setGridData] = useState([]);
-    const [gridPage, setGridPage] = useState(0);
+    const [page, setPage] = useState({ grid: 0, list: 0 });
 
     const changeTabType = {
-        'all-press-tab': () => setTabType((prev) => ({ ...prev, subscribe: 'all' })),
-        'my-press-tab': () => setTabType((prev) => ({ ...prev, subscribe: 'my' })),
-        'list-view-tab': () => setTabType((prev) => ({ ...prev, view: 'list' })),
-        'grid-view-tab': () => setTabType((prev) => ({ ...prev, view: 'grid' })),
+        'all-press-tab': () => {
+            setTabType((prev) => ({ ...prev, subscribe: 'all' }));
+            setPage({ grid: 0, list: 0 });
+        },
+        'my-press-tab': () => {
+            setTabType((prev) => ({ ...prev, subscribe: 'my' }));
+            setPage({ grid: 0, list: 0 });
+        },
+        'list-view-tab': () => {
+            setTabType((prev) => ({ ...prev, view: 'list' }));
+            setPage({ grid: 0, list: 0 });
+        },
+        'grid-view-tab': () => {
+            setTabType((prev) => ({ ...prev, view: 'grid' }));
+            setPage({ grid: 0, list: 0 });
+        },
     };
 
     const setOnClick = (e) => {
@@ -63,7 +75,7 @@ export default function News() {
         <div>
             <NavTab setOnClick={setOnClick} tabType={tabType} />
             <div className={styles.media__container}>
-                {tabType.view === 'grid' && gridData[gridPage] ? <GridNews newsData={gridData} page={gridPage} setGridPage={setGridPage} /> : ''}
+                {tabType.view === 'grid' && gridData[page.grid] ? <GridNews newsData={gridData} page={page.grid} setPage={setPage} /> : ''}
                 {tabType.view === 'list' ? <ListNews /> : ''}
             </div>
         </div>

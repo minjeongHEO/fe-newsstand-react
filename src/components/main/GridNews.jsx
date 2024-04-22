@@ -5,7 +5,7 @@ import { RightOutlined, LeftOutlined } from '@ant-design/icons';
 import { useContext } from 'react';
 import { GridNewsContext } from '../../context/GridNewsContext';
 
-export default function GridNews({ newsData, page, setGridPage }) {
+export default function GridNews({ newsData, page, setPage }) {
     const { gridRow, gridCol, gridMaxPage } = useContext(GridNewsContext);
 
     const gridStyle = {
@@ -26,9 +26,15 @@ export default function GridNews({ newsData, page, setGridPage }) {
                     </div>
                 ))}
             </div>
-            {page > 0 && <LeftOutlined className={news.angle_left} id="grid-left-btn" onClick={() => setGridPage((prev) => prev - 1)} />}
+            {page > 0 && (
+                <LeftOutlined className={news.angle_left} id="grid-left-btn" onClick={() => setPage((prev) => ({ ...prev, grid: prev.grid - 1 }))} />
+            )}
             {page < gridMaxPage - 1 && (
-                <RightOutlined className={news.angle_right} id="grid-right-btn" onClick={() => setGridPage((prev) => prev + 1)} />
+                <RightOutlined
+                    className={news.angle_right}
+                    id="grid-right-btn"
+                    onClick={() => setPage((prev) => ({ ...prev, grid: prev.grid + 1 }))}
+                />
             )}
         </div>
     );
