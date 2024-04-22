@@ -8,7 +8,7 @@ export default function HeadLine({ gridCount }) {
     const [divideData, setDivideData] = useState([]);
 
     useEffect(() => {
-        if (newsData && !error) {
+        if (newsData && newsData.length > 0 && !error) {
             divideDataByGrid();
         }
     }, [newsData, error]);
@@ -17,8 +17,12 @@ export default function HeadLine({ gridCount }) {
         const dataPerGrid = newsData.reduce(
             (acc, cur, idx) => {
                 const elementPerGrid = Math.floor(newsData.length / gridCount);
-                const sectionIdx = Math.floor(idx / elementPerGrid);
-                acc[sectionIdx].push(cur);
+                const lastIndex = gridCount - 1;
+                let sectionIdx = Math.floor(idx / elementPerGrid);
+
+                if (sectionIdx > lastIndex) sectionIdx = lastIndex;
+
+                if (acc[sectionIdx]) acc[sectionIdx].push(cur);
                 return acc;
             },
             Array.from({ length: gridCount }, () => [])
