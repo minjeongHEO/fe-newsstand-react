@@ -14,11 +14,11 @@ export default function useNewsData({ type }) {
         let name = '';
         if (type === 'headline') name = 'headlineData';
         if (type === 'news') name = 'news';
-        const filePath = `data/${name}.json`;
+        const filePath = import.meta.env.VITE_SERVER;
 
         const fetchData = async () => {
             try {
-                const result = await fetch(filePath);
+                const result = await fetch(`${filePath}/${name}.json`);
                 if (!result.ok) throw new Error(`HTTP Error, status:${result.status}`);
                 const newsData = await result.json();
                 setNewsData(newsData);
