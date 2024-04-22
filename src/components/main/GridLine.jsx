@@ -14,7 +14,7 @@ export default function GridLine({ row, col }) {
             if (!entry) return;
             const { inlineSize: width, blockSize: height } = entry.contentBoxSize[0];
 
-            const newRowStyles = Array.from({ length: row - 1 }).map((_, idx) => ({ top: `${(height / row) * (idx + 1)}px` }));
+            const newRowStyles = Array.from({ length: row - 1 }).map((_, idx) => ({ top: `${(height / row) * (idx + 1) - 4}px` }));
             const newColStyles = Array.from({ length: col - 1 }).map((_, idx) => ({ left: `${(width / col) * (idx + 1)}px` }));
             setLineStyles({ rows: newRowStyles, cols: newColStyles });
         });
