@@ -9,7 +9,7 @@ export default function News({ row, col, maxPage }) {
     const [newsData, error] = useNewsData({ type: 'news' });
     const [tabType, setTabType] = useState({ subscribe: 'all', view: 'grid' });
     const [gridData, setGridData] = useState([]);
-    const [page, setPage] = useState(0);
+    const [gridPage, setGridPage] = useState(0);
 
     const changeTabType = {
         'all-press-tab': () => setTabType((prev) => ({ ...prev, subscribe: 'all' })),
@@ -20,6 +20,7 @@ export default function News({ row, col, maxPage }) {
 
     const setOnClick = (e) => {
         const type = e.target.id;
+
         if (changeTabType[type]) changeTabType[type]();
     };
 
@@ -59,7 +60,11 @@ export default function News({ row, col, maxPage }) {
         <div>
             <NavTab setOnClick={setOnClick} tabType={tabType} />
             <div className={styles.media__container}>
-                {tabType.view === 'grid' && gridData[page] ? <GridNews row={row} col={col} newsData={gridData} page={page} /> : ''}
+                {tabType.view === 'grid' && gridData[gridPage] ? (
+                    <GridNews row={row} col={col} newsData={gridData} page={gridPage} maxPage={maxPage} setGridPage={setGridPage} />
+                ) : (
+                    ''
+                )}
                 {tabType.view === 'list' ? <ListNews /> : ''}
             </div>
         </div>

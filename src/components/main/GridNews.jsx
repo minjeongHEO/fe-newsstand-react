@@ -1,8 +1,9 @@
-import React from 'react';
+import news from './News.module.scss';
 import styles from './GridNews.module.scss';
 import GridLine from './GridLine';
+import { RightOutlined, LeftOutlined } from '@ant-design/icons';
 
-export default function GridNews({ row, col, newsData, page }) {
+export default function GridNews({ row, col, newsData, page, maxPage, setGridPage }) {
     const gridStyle = {
         display: 'grid',
         gridTemplateColumns: `repeat(${col}, 1fr)`,
@@ -21,6 +22,9 @@ export default function GridNews({ row, col, newsData, page }) {
                     </div>
                 ))}
             </div>
+
+            {page > 0 && <LeftOutlined className={news.angle_left} id="grid-left-btn" onClick={() => setGridPage((prev) => prev - 1)} />}
+            {page < maxPage - 1 && <RightOutlined className={news.angle_right} id="grid-right-btn" onClick={() => setGridPage((prev) => prev + 1)} />}
         </div>
     );
 }
