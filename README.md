@@ -32,7 +32,7 @@ props drilling 문제가 보이면 `Context API`를 적용해본다.
 
 ### ✨레이아웃 | 🔧기능
 
-🗓 week 1📌
+🗓 week 1
 
 -   [x] React `useState `,`useReducer`,`ContextAPI` 개념 공부
 -   [x] 메인화면 컴포넌트 설계
@@ -40,10 +40,14 @@ props drilling 문제가 보이면 `Context API`를 적용해본다.
 -   [x] 메인화면 레이아웃 그리기 - 헤드라인
 -   [x] 메인화면 레이아웃 그리기 - 그리드
 
+🗓 week 2📌
+
+-   [ ] 그리드 - 페이징
+-   [ ] 그리드 - 구독
+-   [ ] 그리드 - 구독취소
+
 -   [ ] 메인화면 레이아웃 그리기 - 리스트
 -   [ ] 메인화면 nav - 뉴스 롤링 기능
-
-🗓 week 2
 
 <br>
 
