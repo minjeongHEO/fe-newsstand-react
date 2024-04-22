@@ -1,7 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useContext } from 'react';
 import styles from './GridLine.module.scss';
+import { GridNewsContext } from '../../context/GridNewsContext';
 
-export default function GridLine({ row, col }) {
+export default function GridLine() {
+    const { gridRow, gridCol, maxPage } = useContext(GridNewsContext);
+
     const containerRef = useRef(null);
     const [lineStyles, setLineStyles] = useState({ rows: [], cols: [] });
 
@@ -14,23 +17,23 @@ export default function GridLine({ row, col }) {
             if (!entry) return;
             const { inlineSize: width, blockSize: height } = entry.contentBoxSize[0];
 
-            const newRowStyles = Array.from({ length: row - 1 }).map((_, idx) => ({ top: `${(height / row) * (idx + 1) - 4}px` }));
-            const newColStyles = Array.from({ length: col - 1 }).map((_, idx) => ({ left: `${(width / col) * (idx + 1)}px` }));
+            const newRowStyles = Array.from({ length: gridRow - 1 }).map((_, idx) => ({ top: `${(height / gridRow) * (idx + 1) - 4}px` }));
+            const newColStyles = Array.from({ length: gridCol - 1 }).map((_, idx) => ({ left: `${(width / gridCol) * (idx + 1)}px` }));
             setLineStyles({ rows: newRowStyles, cols: newColStyles });
         });
 
         resizeObserver.observe(gridLineContainer);
 
         return () => resizeObserver.unobserve(gridLineContainer);
-    }, [row, col]);
+    }, [gridRow, gridCol]);
 
     return (
         <div ref={containerRef} className={styles['gridLine_Container']}>
             {lineStyles.rows.map((eachStyle, idx) => (
-                <i key={`row-${idx}`} className={`${styles['gridLine']} ${styles['gridLine_row']}`} style={eachStyle}></i>
+                <i key={`gridRow-${idx}`} className={`${styles['gridLine']} ${styles['gridLine_row']}`} style={eachStyle}></i>
             ))}
             {lineStyles.cols.map((eachStyle, idx) => (
-                <i key={`col-${idx}`} className={`${styles['gridLine']} ${styles['gridLine_col']}`} style={eachStyle}></i>
+                <i key={`gridCol-${idx}`} className={`${styles['gridLine']} ${styles['gridLine_col']}`} style={eachStyle}></i>
             ))}
         </div>
     );

@@ -2,17 +2,21 @@ import news from './News.module.scss';
 import styles from './GridNews.module.scss';
 import GridLine from './GridLine';
 import { RightOutlined, LeftOutlined } from '@ant-design/icons';
+import { useContext } from 'react';
+import { GridNewsContext } from '../../context/GridNewsContext';
 
-export default function GridNews({ row, col, newsData, page, maxPage, setGridPage }) {
+export default function GridNews({ newsData, page, setGridPage }) {
+    const { gridRow, gridCol, gridMaxPage } = useContext(GridNewsContext);
+
     const gridStyle = {
         display: 'grid',
-        gridTemplateColumns: `repeat(${col}, 1fr)`,
+        gridTemplateColumns: `repeat(${gridCol}, 1fr)`,
         height: '100%',
     };
 
     return (
         <div className={styles.gridContainer}>
-            <GridLine row={row} col={col} />
+            <GridLine />
             <div className={styles.media__grid_type__container} style={gridStyle}>
                 {newsData[page].map((press) => (
                     <div key={press.id}>
@@ -22,9 +26,10 @@ export default function GridNews({ row, col, newsData, page, maxPage, setGridPag
                     </div>
                 ))}
             </div>
-
             {page > 0 && <LeftOutlined className={news.angle_left} id="grid-left-btn" onClick={() => setGridPage((prev) => prev - 1)} />}
-            {page < maxPage - 1 && <RightOutlined className={news.angle_right} id="grid-right-btn" onClick={() => setGridPage((prev) => prev + 1)} />}
+            {page < gridMaxPage - 1 && (
+                <RightOutlined className={news.angle_right} id="grid-right-btn" onClick={() => setGridPage((prev) => prev + 1)} />
+            )}
         </div>
     );
 }

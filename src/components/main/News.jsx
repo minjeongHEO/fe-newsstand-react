@@ -1,11 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styles from './News.module.scss';
 import useNewsData from '../../hooks/useNewsdata';
 import NavTab from './NavTab';
 import GridNews from './GridNews';
 import ListNews from './ListNews';
+import { GridNewsContext } from '../../context/GridNewsContext';
 
-export default function News({ row, col, maxPage }) {
+export default function News() {
+    const { gridRow, gridCol, gridMaxPage } = useContext(GridNewsContext);
+
     const [newsData, error] = useNewsData({ type: 'news' });
     const [tabType, setTabType] = useState({ subscribe: 'all', view: 'grid' });
     const [gridData, setGridData] = useState([]);
@@ -42,9 +45,9 @@ export default function News({ row, col, maxPage }) {
         const filterData = data.map((e) => {
             return { id: e.id, pressName: e.pressName, logoImageSrc: e.logoImageSrc };
         });
-        const elementCount = row * col;
+        const elementCount = gridRow * gridCol;
         const slicedData = sliceData(elementCount, filterData);
-        const maxPageData = slicedData.slice(0, maxPage);
+        const maxPageData = slicedData.slice(0, gridMaxPage);
 
         setGridData(maxPageData);
     };
@@ -60,11 +63,7 @@ export default function News({ row, col, maxPage }) {
         <div>
             <NavTab setOnClick={setOnClick} tabType={tabType} />
             <div className={styles.media__container}>
-                {tabType.view === 'grid' && gridData[gridPage] ? (
-                    <GridNews row={row} col={col} newsData={gridData} page={gridPage} maxPage={maxPage} setGridPage={setGridPage} />
-                ) : (
-                    ''
-                )}
+                {tabType.view === 'grid' && gridData[gridPage] ? <GridNews newsData={gridData} page={gridPage} setGridPage={setGridPage} /> : ''}
                 {tabType.view === 'list' ? <ListNews /> : ''}
             </div>
         </div>
