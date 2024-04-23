@@ -17,7 +17,7 @@ export default function GridNews({ newsData, page, setPage }) {
 
     const prevArrowClick = () => setPage((prev) => ({ ...prev, grid: prev.grid - 1 }));
     const nextArrowClick = () => setPage((prev) => ({ ...prev, grid: prev.grid + 1 }));
-
+    const isSubscribed = (pressNameToCheck) => !!subscribes.find(({ pressName }) => pressName === pressNameToCheck);
     const unSubscribe = async (subscribeObj) => {};
 
     const subscribe = async (subscribeObj) => {
@@ -37,9 +37,9 @@ export default function GridNews({ newsData, page, setPage }) {
         const subscribeObj = { id, pressName, logoImageSrc };
 
         //구독하기
-        if (target.getAttribute('subscribe') === 'true') subscribe(subscribeObj);
+        if (target.getAttribute('subscribe') === 'false') subscribe(subscribeObj);
         //해지하기
-        if (target.getAttribute('subscribe') === 'false') unSubscribe(subscribeObj);
+        if (target.getAttribute('subscribe') === 'true') unSubscribe(subscribeObj);
     };
 
     return (
@@ -54,9 +54,9 @@ export default function GridNews({ newsData, page, setPage }) {
                         <button
                             className={styles['media__grid_type__subscribe_btn']}
                             onClick={setSubscribe}
-                            subscribe={subscribes.find(({ pressName }) => pressName === press.pressName) ? 'true' : 'false'}
+                            subscribe={isSubscribed(press.pressName) ? 'true' : 'false'}
                         >
-                            {subscribes.find(({ pressName }) => pressName === press.pressName) ? '- 해지하기' : '+ 구독하기'}
+                            {isSubscribed(press.pressName) ? '- 해지하기' : '+ 구독하기'}
                         </button>
                     </div>
                 ))}
