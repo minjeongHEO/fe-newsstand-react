@@ -6,14 +6,14 @@ export default function NavTab({ setOnClick, tabType }) {
         <div className={styles.nav__container}>
             <div className={styles.nav__container__press}>
                 <div
-                    className={`${styles['nav__press-contents']} ${tabType.subscribe === 'all' ? styles['contents-select'] : ''}`}
+                    className={`${styles['nav__press-contents']} ${tabType.subscribe === 'ALL_PRESS' ? styles['contents-select'] : ''}`}
                     id="all-press-tab"
                     onClick={setOnClick}
                 >
                     전체 언론사
                 </div>
                 <div
-                    className={`${styles['nav__press-contents']}  ${tabType.subscribe === 'my' ? styles['contents-select'] : ''}`}
+                    className={`${styles['nav__press-contents']}  ${tabType.subscribe === 'SUBSCRIBED_PRESS' ? styles['contents-select'] : ''}`}
                     id="my-press-tab"
                     onClick={setOnClick}
                 >

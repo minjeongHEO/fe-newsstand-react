@@ -10,25 +10,25 @@ export default function News() {
     const { gridRow, gridCol, gridMaxPage } = useContext(GridNewsContext);
 
     const [newsData, error] = useNewsData({ type: 'news' });
-    const [tabType, setTabType] = useState({ subscribe: 'all', view: 'grid' });
+    const [tabType, setTabType] = useState({ subscribe: 'ALL_PRESS', view: 'GRID_VIEW_TYPE' });
     const [gridData, setGridData] = useState([]);
     const [page, setPage] = useState({ grid: 0, list: 0 });
 
     const changeTabType = {
         'all-press-tab': () => {
-            setTabType((prev) => ({ ...prev, subscribe: 'all' }));
+            setTabType((prev) => ({ ...prev, subscribe: 'ALL_PRESS' }));
             setPage({ grid: 0, list: 0 });
         },
         'my-press-tab': () => {
-            setTabType((prev) => ({ ...prev, subscribe: 'my' }));
+            setTabType((prev) => ({ ...prev, subscribe: 'SUBSCRIBED_PRESS' }));
             setPage({ grid: 0, list: 0 });
         },
         'list-view-tab': () => {
-            setTabType((prev) => ({ ...prev, view: 'list' }));
+            setTabType((prev) => ({ ...prev, view: 'LIST_VIEW_TYPE' }));
             setPage({ grid: 0, list: 0 });
         },
         'grid-view-tab': () => {
-            setTabType((prev) => ({ ...prev, view: 'grid' }));
+            setTabType((prev) => ({ ...prev, view: 'GRID_VIEW_TYPE' }));
             setPage({ grid: 0, list: 0 });
         },
     };
@@ -46,11 +46,11 @@ export default function News() {
 
     /**
      * @param {String} type - 데이터의 유형을 지정한다.
-     *      "all" : 전체 데이터
-     *      "my" : 사용자가 구독한 데이터
+     *      "ALL_PRESS" : 전체 데이터
+     *      "SUBSCRIBED_PRESS" : 사용자가 구독한 데이터
      */
     const getgridData = (type) => {
-        const data = type === 'my' ? newsData.subscribe : newsData.news;
+        const data = type === 'SUBSCRIBED_PRESS' ? newsData.subscribe : newsData.news;
 
         if (data.length <= 0) return;
 
@@ -67,7 +67,7 @@ export default function News() {
     useEffect(() => {
         // 전체 언론사 && 그리드뷰(뷰타입state는 백로그)
         if (newsData && !error) {
-            getgridData('all');
+            getgridData('ALL_PRESS');
         }
     }, [newsData, error]);
 
@@ -75,8 +75,8 @@ export default function News() {
         <div>
             <NavTab setOnClick={setOnClick} tabType={tabType} />
             <div className={styles.media__container}>
-                {tabType.view === 'grid' && gridData[page.grid] ? <GridNews newsData={gridData} page={page.grid} setPage={setPage} /> : ''}
-                {tabType.view === 'list' ? <ListNews /> : ''}
+                {tabType.view === 'GRID_VIEW_TYPE' && gridData[page.grid] ? <GridNews newsData={gridData} page={page.grid} setPage={setPage} /> : ''}
+                {tabType.view === 'LIST_VIEW_TYPE' ? <ListNews /> : ''}
             </div>
         </div>
     );
