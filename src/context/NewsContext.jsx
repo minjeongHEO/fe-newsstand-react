@@ -7,5 +7,11 @@ export default function NewsProvider({ children, initGridRow, initGridcol, initG
     const [gridCol, setGridCol] = useState(initGridcol);
     const [gridMaxPage, setGridMaxPage] = useState(initGridMaxPage);
 
-    return <NewsContext.Provider value={{ gridRow, gridCol, gridMaxPage, setGridRow, setGridCol, setGridMaxPage }}>{children}</NewsContext.Provider>;
+    const [subscribes, setSubscribes] = useState([]);
+
+    return (
+        <NewsContext.Provider value={{ gridRow, gridCol, gridMaxPage, setGridRow, setGridCol, setGridMaxPage, subscribes, setSubscribes }}>
+            {children}
+        </NewsContext.Provider>
+    );
 }
