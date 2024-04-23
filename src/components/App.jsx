@@ -5,13 +5,13 @@ import News from './main/News';
 import NewsProvider from '../context/NewsContext';
 
 function App() {
-    const [gridRow, gridCol, gridMaxPage] = [4, 6, 4];
+    const [gridRow, gridCol, gridMaxPage, gridCount] = [4, 6, 4, 2];
 
     return (
         <div id={styles.wrap}>
             <Header />
             <main>
-                <HeadLine gridCount={2} />
+                <HeadLine gridCount={gridCount} />
                 <NewsProvider initGridRow={gridRow} initGridcol={gridCol} initGridMaxPage={gridMaxPage}>
                     <News />
                 </NewsProvider>
