@@ -4,7 +4,7 @@ import styles from './GridNews.module.scss';
 import GridLine from './GridLine';
 import { NewsContext } from '../../context/NewsContext';
 import { useContext } from 'react';
-import { insertSubscribeData, selectAllSubscribeData } from '../../api/subscribeData';
+import { insertSubscribeData, selectAllSubscribeData, deleteSubscribeData } from '../../api/subscribeData';
 
 export default function GridNews({ newsData, page, setPage }) {
     const { gridCol, gridMaxPage, subscribes, setSubscribes } = useContext(NewsContext);
@@ -18,7 +18,10 @@ export default function GridNews({ newsData, page, setPage }) {
     const prevArrowClick = () => setPage((prev) => ({ ...prev, grid: prev.grid - 1 }));
     const nextArrowClick = () => setPage((prev) => ({ ...prev, grid: prev.grid + 1 }));
     const isSubscribed = (pressNameToCheck) => !!subscribes.find(({ pressName }) => pressName === pressNameToCheck);
-    const unSubscribe = async (subscribeObj) => {};
+
+    const unSubscribe = async (idToDelete) => {
+        await deleteSubscribeData(idToDelete);
+    };
 
     const subscribe = async (subscribeObj) => {
         const insertResult = await insertSubscribeData(subscribeObj);
@@ -39,7 +42,7 @@ export default function GridNews({ newsData, page, setPage }) {
         //구독하기
         if (target.getAttribute('subscribe') === 'false') subscribe(subscribeObj);
         //해지하기
-        if (target.getAttribute('subscribe') === 'true') unSubscribe(subscribeObj);
+        if (target.getAttribute('subscribe') === 'true') unSubscribe(id);
     };
 
     return (
@@ -56,7 +59,7 @@ export default function GridNews({ newsData, page, setPage }) {
                             onClick={setSubscribe}
                             subscribe={isSubscribed(press.pressName) ? 'true' : 'false'}
                         >
-                            {isSubscribed(press.pressName) ? '- 해지하기' : '+ 구독하기'}
+                            {isSubscribed(press.pressName) ? '😥해지하기' : ' 💙구독하기'}
                         </button>
                     </div>
                 ))}

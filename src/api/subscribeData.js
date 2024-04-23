@@ -28,14 +28,36 @@ export const insertSubscribeData = async (subscriptionData) => {
  * @returns {Object} - { result: bool, msg: 'error message', data: subscribeData };
  */
 export const selectAllSubscribeData = async () => {
-    let insertResult = { result: false, msg: '', data: '' };
+    let selectResult = { result: false, msg: '', data: '' };
 
     const response = await fetch(`${import.meta.env.VITE_JSON_SERVER}/subscribe`);
     const subscribeData = await response.json();
 
     // 조회 성공 여부 확인
-    if (response.ok) insertResult = { result: true, msg: 'Data viewed successfully.', data: subscribeData };
-    else insertResult = { result: false, msg: 'Data viewed failure.' };
+    if (response.ok) selectResult = { result: true, msg: 'Data viewed successfully.', data: subscribeData };
+    else selectResult = { result: false, msg: 'Data viewed failure.' };
 
-    return insertResult;
+    return selectResult;
+};
+
+/**
+ * 구독 해지 delete
+ * @param {String} - id
+ * @returns {Object} - { result: bool, msg: 'error message' };
+ */
+export const deleteSubscribeData = async (idToDelete) => {
+    let deleteResult = { result: false, msg: '' };
+
+    const response = await fetch(`${import.meta.env.VITE_JSON_SERVER}/subscribe/${idToDelete}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    // 삭제 성공 여부 확인
+    if (response.ok) deleteResult = { result: true, msg: 'Data deleted successfully.' };
+    else deleteResult = { result: false, msg: 'Data deleted failure.' };
+
+    return deleteResult;
 };
