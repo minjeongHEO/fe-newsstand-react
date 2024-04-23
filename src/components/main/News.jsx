@@ -5,9 +5,10 @@ import NavTab from './NavTab';
 import GridNews from './GridNews';
 import ListNews from './ListNews';
 import { NewsContext } from '../../context/NewsContext';
+import { selectAllSubscribeData } from '../../api/subscribeData';
 
 export default function News() {
-    const { gridRow, gridCol, gridMaxPage } = useContext(NewsContext);
+    const { gridRow, gridCol, gridMaxPage, subscribes, setSubscribes } = useContext(NewsContext);
 
     const [newsData, error] = useNewsData({ type: 'news' });
     const [tabType, setTabType] = useState({ subscribe: 'ALL_PRESS', view: 'GRID_VIEW_TYPE' });
@@ -64,12 +65,19 @@ export default function News() {
         setGridData(maxPageData);
     };
 
+    const setSubscribedData = async () => {
+        const selectAllResult = await selectAllSubscribeData();
+        if (selectAllResult.result) setSubscribes(selectAllResult.data);
+    };
+
     useEffect(() => {
+        setSubscribedData();
+
         // 전체 언론사 && 그리드뷰(뷰타입state는 백로그)
         if (newsData && !error) {
             getgridData('ALL_PRESS');
         }
-    }, [newsData, error]);
+    }, [newsData, error, subscribes]);
 
     return (
         <div>
