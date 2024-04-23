@@ -27,15 +27,9 @@ export default function GridNews({ newsData, page, setPage }) {
                     </div>
                 ))}
             </div>
-            {page > 0 && (
-                <LeftOutlined className={news.angle_left} id="grid-left-btn" onClick={() => setPage((prev) => ({ ...prev, grid: prev.grid - 1 }))} />
-            )}
+            {page > 0 && <LeftOutlined className={news.angle_left} onClick={() => setPage((prev) => ({ ...prev, grid: prev.grid - 1 }))} />}
             {page < gridMaxPage - 1 && (
-                <RightOutlined
-                    className={news.angle_right}
-                    id="grid-right-btn"
-                    onClick={() => setPage((prev) => ({ ...prev, grid: prev.grid + 1 }))}
-                />
+                <RightOutlined className={news.angle_right} onClick={() => setPage((prev) => ({ ...prev, grid: prev.grid + 1 }))} />
             )}
         </div>
     );
