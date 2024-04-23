@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState, useContext } from 'react';
 import styles from './GridLine.module.scss';
-import { GridNewsContext } from '../../context/GridNewsContext';
+import { NewsContext } from '../../context/NewsContext';
 
 export default function GridLine() {
-    const { gridRow, gridCol, maxPage } = useContext(GridNewsContext);
+    const { gridRow, gridCol, maxPage } = useContext(NewsContext);
 
     const containerRef = useRef(null);
     const [lineStyles, setLineStyles] = useState({ rows: [], cols: [] });

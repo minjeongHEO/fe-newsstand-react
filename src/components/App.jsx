@@ -2,7 +2,7 @@ import styles from './App.module.scss';
 import Header from './header/Header';
 import HeadLine from './main/HeadLine';
 import News from './main/News';
-import GridNewsProvider from '../context/GridNewsContext';
+import NewsProvider from '../context/NewsContext';
 
 function App() {
     const [gridRow, gridCol, gridMaxPage] = [4, 6, 4];
@@ -12,9 +12,9 @@ function App() {
             <Header />
             <main>
                 <HeadLine gridCount={2} />
-                <GridNewsProvider initGridRow={gridRow} initGridcol={gridCol} initGridMaxPage={gridMaxPage}>
+                <NewsProvider initGridRow={gridRow} initGridcol={gridCol} initGridMaxPage={gridMaxPage}>
                     <News />
-                </GridNewsProvider>
+                </NewsProvider>
             </main>
         </div>
     );

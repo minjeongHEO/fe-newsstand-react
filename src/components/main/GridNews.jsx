@@ -2,11 +2,11 @@ import { RightOutlined, LeftOutlined } from '@ant-design/icons';
 import news from './News.module.scss';
 import styles from './GridNews.module.scss';
 import GridLine from './GridLine';
-import { GridNewsContext } from '../../context/GridNewsContext';
+import { NewsContext } from '../../context/NewsContext';
 import { useContext } from 'react';
 
 export default function GridNews({ newsData, page, setPage }) {
-    const { gridCol, gridMaxPage } = useContext(GridNewsContext);
+    const { gridCol, gridMaxPage } = useContext(NewsContext);
 
     const gridStyle = {
         display: 'grid',

@@ -4,10 +4,10 @@ import useNewsData from '../../hooks/useNewsdata';
 import NavTab from './NavTab';
 import GridNews from './GridNews';
 import ListNews from './ListNews';
-import { GridNewsContext } from '../../context/GridNewsContext';
+import { NewsContext } from '../../context/NewsContext';
 
 export default function News() {
-    const { gridRow, gridCol, gridMaxPage } = useContext(GridNewsContext);
+    const { gridRow, gridCol, gridMaxPage } = useContext(NewsContext);
 
     const [newsData, error] = useNewsData({ type: 'news' });
     const [tabType, setTabType] = useState({ subscribe: 'ALL_PRESS', view: 'GRID_VIEW_TYPE' });
