@@ -74,16 +74,26 @@ export default function News() {
         setSubscribedData();
 
         // 전체 언론사 && 그리드뷰(뷰타입state는 백로그)
+
         if (newsData && !error) {
-            getgridData('ALL_PRESS');
+            if (tabType.subscribe === 'ALL_PRESS' && tabType.view === 'GRID_VIEW_TYPE') {
+                getgridData('ALL_PRESS');
+            }
+            if (tabType.subscribe === 'SUBSCRIBED_PRESS' && tabType.view === 'GRID_VIEW_TYPE') {
+                getgridData('SUBSCRIBED_PRESS');
+            }
         }
-    }, [newsData, error, subscribes]);
+    }, [newsData, error, subscribes, tabType]);
 
     return (
         <div>
             <NavTab setOnClick={setOnClick} tabType={tabType} />
             <div className={styles.media__container}>
-                {tabType.view === 'GRID_VIEW_TYPE' && gridData[page.grid] ? <GridNews newsData={gridData} page={page.grid} setPage={setPage} /> : ''}
+                {tabType.view === 'GRID_VIEW_TYPE' && gridData[page.grid] ? (
+                    <GridNews newsData={gridData} page={page.grid} setPage={setPage} tabType={tabType} />
+                ) : (
+                    ''
+                )}
                 {tabType.view === 'LIST_VIEW_TYPE' ? <ListNews /> : ''}
             </div>
         </div>

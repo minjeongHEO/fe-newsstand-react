@@ -3,16 +3,19 @@ import news from './News.module.scss';
 import styles from './GridNews.module.scss';
 import GridLine from './GridLine';
 import { NewsContext } from '../../context/NewsContext';
-import { useContext } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { insertSubscribeData, selectAllSubscribeData, deleteSubscribeData } from '../../api/subscribeData';
 
-export default function GridNews({ newsData, page, setPage }) {
-    const { gridCol, gridMaxPage, subscribes, setSubscribes } = useContext(NewsContext);
+export default function GridNews({ newsData, page, setPage, tabType }) {
+    const { gridRow, gridCol, gridMaxPage, subscribes, setSubscribes } = useContext(NewsContext);
+
+    const containerRef = useRef(null);
+    const [subscribeHeight, setSubscribeHeight] = useState(0);
 
     const gridStyle = {
         display: 'grid',
         gridTemplateColumns: `repeat(${gridCol}, 1fr)`,
-        height: '100%',
+        height: tabType.subscribe === 'SUBSCRIBED_PRESS' ? `${subscribeHeight}px` : `100%`,
     };
 
     const prevArrowClick = () => setPage((prev) => ({ ...prev, grid: prev.grid - 1 }));
@@ -45,8 +48,24 @@ export default function GridNews({ newsData, page, setPage }) {
         if (target.getAttribute('subscribe') === 'true') unSubscribe(id);
     };
 
+    useEffect(() => {
+        const gridContainer = containerRef.current;
+        if (!gridContainer) return;
+
+        const resizeObserver = new ResizeObserver((entries) => {
+            const entry = entries[0];
+            if (!entry) return;
+            const { blockSize: height } = entry.contentBoxSize[0];
+            const heigthStyles = height / gridRow - 4;
+            setSubscribeHeight(heigthStyles);
+        });
+
+        resizeObserver.observe(gridContainer);
+        return () => resizeObserver.unobserve(gridContainer);
+    }, []);
+
     return (
-        <div className={styles.gridContainer}>
+        <div ref={containerRef} className={styles.gridContainer}>
             <GridLine />
             <div className={styles.media__grid_type__container} style={gridStyle}>
                 {newsData[page].map((press) => (
@@ -66,7 +85,7 @@ export default function GridNews({ newsData, page, setPage }) {
             </div>
 
             {page > 0 && <LeftOutlined className={news.angle_left} onClick={prevArrowClick} />}
-            {page < gridMaxPage - 1 && <RightOutlined className={news.angle_right} onClick={nextArrowClick} />}
+            {page < gridMaxPage - 1 && newsData.length > 1 && <RightOutlined className={news.angle_right} onClick={nextArrowClick} />}
         </div>
     );
 }
