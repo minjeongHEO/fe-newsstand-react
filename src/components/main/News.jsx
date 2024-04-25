@@ -52,7 +52,7 @@ export default function News() {
     const getgridData = (type) => {
         const data = type === 'SUBSCRIBED_PRESS' ? newsData.subscribe : newsData.news;
 
-        if (data.length <= 0) return;
+        if (!data.length) return;
 
         const filterData = data.map((e) => {
             return { id: e.id, pressName: e.pressName, logoImageSrc: e.logoImageSrc };
@@ -94,7 +94,7 @@ export default function News() {
         };
 
         initializeData(); // news.json
-    }, []);
+    }, [tabType]);
 
     return (
         <div>
