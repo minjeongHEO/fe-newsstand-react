@@ -4,23 +4,22 @@
  * @returns {Object} - { result: bool, msg: 'error message' };
  */
 export const insertSubscribeData = async (subscriptionData) => {
-    let insertResult = { result: false, msg: '' };
+    try {
+        const response = await fetch(`${import.meta.env.VITE_JSON_SERVER}/subscribe`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(subscriptionData),
+        });
 
-    const response = await fetch(`${import.meta.env.VITE_JSON_SERVER}/subscribe`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(subscriptionData),
-    });
+        await response.json();
 
-    await response.json();
-
-    // 저장 성공 여부 확인
-    if (response.ok) insertResult = { result: true, msg: 'Data saved successfully.' };
-    else insertResult = { result: false, msg: 'Data save failure.' };
-
-    return insertResult;
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return { result: true, msg: 'Data saved successfully.' };
+    } catch (error) {
+        return { result: false, msg: error.message };
+    }
 };
 
 /**
@@ -28,16 +27,16 @@ export const insertSubscribeData = async (subscriptionData) => {
  * @returns {Object} - { result: bool, msg: 'error message', data: subscribeData };
  */
 export const selectAllSubscribeData = async () => {
-    let selectResult = { result: false, msg: '', data: '' };
+    try {
+        const response = await fetch(`${import.meta.env.VITE_JSON_SERVER}/subscribe`);
+        const subscribeData = await response.json();
 
-    const response = await fetch(`${import.meta.env.VITE_JSON_SERVER}/subscribe`);
-    const subscribeData = await response.json();
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-    // 조회 성공 여부 확인
-    if (response.ok) selectResult = { result: true, msg: 'Data viewed successfully.', data: subscribeData };
-    else selectResult = { result: false, msg: 'Data viewed failure.' };
-
-    return selectResult;
+        return { result: true, msg: 'Data viewed successfully.', data: subscribeData };
+    } catch (error) {
+        return { result: false, msg: error.message };
+    }
 };
 
 /**
@@ -46,18 +45,17 @@ export const selectAllSubscribeData = async () => {
  * @returns {Object} - { result: bool, msg: 'error message' };
  */
 export const deleteSubscribeData = async (idToDelete) => {
-    let deleteResult = { result: false, msg: '' };
+    try {
+        const response = await fetch(`${import.meta.env.VITE_JSON_SERVER}/subscribe/${idToDelete}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) throw new error(`HTTP error! status: ${response.status}`);
 
-    const response = await fetch(`${import.meta.env.VITE_JSON_SERVER}/subscribe/${idToDelete}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
-
-    // 삭제 성공 여부 확인
-    if (response.ok) deleteResult = { result: true, msg: 'Data deleted successfully.' };
-    else deleteResult = { result: false, msg: 'Data deleted failure.' };
-
-    return deleteResult;
+        return { result: true, msg: 'Data deleted successfully.' };
+    } catch (error) {
+        return { result: false, msg: error.message };
+    }
 };
