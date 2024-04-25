@@ -5,17 +5,22 @@ import GridLine from './GridLine';
 import { NewsContext } from '../../context/NewsContext';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { insertSubscribeData, selectAllSubscribeData, deleteSubscribeData } from '../../api/subscribeData';
+import { fetchNewsData } from '../../api/fetchNewsData';
 
-export default function GridNews({ newsData, page, setPage, tabType }) {
-    const { gridRow, gridCol, gridMaxPage, subscribes, setSubscribes } = useContext(NewsContext);
+export default function GridNews({ gridNewsData, page, setPage, tabType, setSubscribedData }) {
+    const { gridRow, gridCol, gridMaxPage, subscribes, setSubscribes, newsData, setNewsData } = useContext(NewsContext);
 
     const containerRef = useRef(null);
     const [subscribeHeight, setSubscribeHeight] = useState(0);
 
+    const subscribedPressStyle = {
+        height: tabType.subscribe === 'SUBSCRIBED_PRESS' ? `${subscribeHeight}px` : `100%`,
+    };
+
     const gridStyle = {
         display: 'grid',
         gridTemplateColumns: `repeat(${gridCol}, 1fr)`,
-        height: tabType.subscribe === 'SUBSCRIBED_PRESS' ? `${subscribeHeight}px` : `100%`,
+        height: tabType.subscribe === 'SUBSCRIBED_PRESS' ? null : `100%`,
     };
 
     const prevArrowClick = () => setPage((prev) => ({ ...prev, grid: prev.grid - 1 }));
@@ -23,11 +28,17 @@ export default function GridNews({ newsData, page, setPage, tabType }) {
     const isSubscribed = (pressNameToCheck) => !!subscribes.find(({ pressName }) => pressName === pressNameToCheck);
 
     const unSubscribe = async (idToDelete) => {
-        await deleteSubscribeData(idToDelete);
+        const deleteResult = await deleteSubscribeData(idToDelete);
+        if (deleteResult.result) {
+            setSubscribedData();
+        }
     };
 
     const subscribe = async (subscribeObj) => {
         const insertResult = await insertSubscribeData(subscribeObj);
+        const newNewsData = await fetchNewsData({ type: 'news' });
+        setNewsData(newNewsData);
+
         if (insertResult.result) {
             const selectAllResult = await selectAllSubscribeData();
             if (selectAllResult.result) setSubscribes(selectAllResult.data);
@@ -46,6 +57,9 @@ export default function GridNews({ newsData, page, setPage, tabType }) {
         if (target.getAttribute('subscribe') === 'false') subscribe(subscribeObj);
         //해지하기
         if (target.getAttribute('subscribe') === 'true') unSubscribe(id);
+
+        if (tabType.subscribe === 'SUBSCRIBED_PRESS') {
+        }
     };
 
     useEffect(() => {
@@ -67,9 +81,10 @@ export default function GridNews({ newsData, page, setPage, tabType }) {
     return (
         <div ref={containerRef} className={styles.gridContainer}>
             <GridLine />
+
             <div className={styles.media__grid_type__container} style={gridStyle}>
-                {newsData[page].map((press) => (
-                    <div key={press.id} id={press.id}>
+                {gridNewsData[page].map((press) => (
+                    <div key={press.id} id={press.id} style={subscribedPressStyle}>
                         <a href="#" className={styles['media__subscription-news-view']}>
                             <img src={press.logoImageSrc} alt={press.pressName} className={styles['media__grid_type__news_logo']}></img>
                         </a>
@@ -85,7 +100,7 @@ export default function GridNews({ newsData, page, setPage, tabType }) {
             </div>
 
             {page > 0 && <LeftOutlined className={news.angle_left} onClick={prevArrowClick} />}
-            {page < gridMaxPage - 1 && newsData.length > 1 && <RightOutlined className={news.angle_right} onClick={nextArrowClick} />}
+            {page < gridMaxPage - 1 && gridNewsData.length > 1 && <RightOutlined className={news.angle_right} onClick={nextArrowClick} />}
         </div>
     );
 }
