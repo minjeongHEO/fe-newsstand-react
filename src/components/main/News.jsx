@@ -1,18 +1,17 @@
 import { useContext, useEffect, useState } from 'react';
 import styles from './News.module.scss';
-import useNewsData from '../../hooks/useNewsdata';
 import NavTab from './NavTab';
 import GridNews from './GridNews';
 import ListNews from './ListNews';
 import { NewsContext } from '../../context/NewsContext';
 import { selectAllSubscribeData } from '../../api/subscribeData';
+import { fetchNewsData } from '../../api/fetchNewsData';
 
 export default function News() {
-    const { gridRow, gridCol, gridMaxPage, subscribes, setSubscribes } = useContext(NewsContext);
-
-    const [newsData, error] = useNewsData({ type: 'news' });
+    const { gridRow, gridCol, gridMaxPage, subscribes, setSubscribes, newsData, setNewsData } = useContext(NewsContext);
     const [tabType, setTabType] = useState({ subscribe: 'ALL_PRESS', view: 'GRID_VIEW_TYPE' });
     const [gridData, setGridData] = useState([]);
+    const [listData, setListData] = useState([]);
     const [page, setPage] = useState({ grid: 0, list: 0 });
 
     const changeTabType = {
@@ -65,17 +64,13 @@ export default function News() {
         setGridData(maxPageData);
     };
 
-    const setSubscribedData = async () => {
+    const initializeSubscribedData = async () => {
         const selectAllResult = await selectAllSubscribeData();
         if (selectAllResult.result) setSubscribes(selectAllResult.data);
     };
 
-    useEffect(() => {
-        setSubscribedData();
-
-        // 전체 언론사 && 그리드뷰(뷰타입state는 백로그)
-
-        if (newsData && !error) {
+    const initializeDataByType = () => {
+        if (newsData) {
             if (tabType.subscribe === 'ALL_PRESS' && tabType.view === 'GRID_VIEW_TYPE') {
                 getgridData('ALL_PRESS');
             }
@@ -83,14 +78,36 @@ export default function News() {
                 getgridData('SUBSCRIBED_PRESS');
             }
         }
-    }, [newsData, error, subscribes, tabType]);
+    };
+
+    useEffect(() => {
+        if (newsData) {
+            initializeSubscribedData();
+            initializeDataByType();
+        }
+    }, [newsData]);
+
+    useEffect(() => {
+        const initializeData = async () => {
+            const newsData = await fetchNewsData({ type: 'news' });
+            setNewsData(newsData);
+        };
+
+        initializeData(); // news.json
+    }, []);
 
     return (
         <div>
             <NavTab setOnClick={setOnClick} tabType={tabType} />
             <div className={styles.media__container}>
                 {tabType.view === 'GRID_VIEW_TYPE' && gridData[page.grid] ? (
-                    <GridNews newsData={gridData} page={page.grid} setPage={setPage} tabType={tabType} />
+                    <GridNews
+                        gridNewsData={gridData}
+                        page={page.grid}
+                        setPage={setPage}
+                        tabType={tabType}
+                        setSubscribedData={initializeSubscribedData}
+                    />
                 ) : (
                     ''
                 )}
