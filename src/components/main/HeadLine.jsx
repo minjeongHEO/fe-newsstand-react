@@ -1,22 +1,16 @@
-import styles from './HeadLine.module.scss';
-import useNewsData from '../../hooks/useNewsdata';
-import HeadLineBox from './HeadLineBox';
+import { fetchNewsData } from '../../api/fetchNewsData';
 import { useEffect, useState } from 'react';
+import styles from './HeadLine.module.scss';
+import HeadLineBox from './HeadLineBox';
 
 export default function HeadLine({ gridCount }) {
-    const [newsData, error] = useNewsData({ type: 'headline' });
+    const [headLineData, setHeadLineData] = useState([]);
     const [divideData, setDivideData] = useState([]);
 
-    useEffect(() => {
-        if (newsData && newsData.length > 0 && !error) {
-            divideDataByGrid();
-        }
-    }, [newsData, error]);
-
     const divideDataByGrid = () => {
-        const dataPerGrid = newsData.reduce(
+        const dataPerGrid = headLineData.reduce(
             (acc, cur, idx) => {
-                const elementPerGrid = Math.floor(newsData.length / gridCount);
+                const elementPerGrid = Math.floor(headLineData.length / gridCount);
                 const lastIndex = gridCount - 1;
                 let sectionIdx = Math.floor(idx / elementPerGrid);
 
@@ -29,6 +23,18 @@ export default function HeadLine({ gridCount }) {
         );
         setDivideData(dataPerGrid);
     };
+
+    useEffect(() => {
+        if (headLineData.length > 0) divideDataByGrid();
+    }, [headLineData]);
+
+    useEffect(() => {
+        const initializeData = async () => {
+            const data = await fetchNewsData({ type: 'headline' });
+            setHeadLineData(data);
+        };
+        initializeData();
+    }, []);
 
     return (
         <section>
