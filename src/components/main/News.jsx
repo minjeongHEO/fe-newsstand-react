@@ -80,11 +80,13 @@ export default function News() {
         }
     };
 
+    const reSubscribedData = () => {
+        initializeSubscribedData();
+        initializeDataByType();
+    };
+
     useEffect(() => {
-        if (newsData) {
-            initializeSubscribedData();
-            initializeDataByType();
-        }
+        if (newsData) reSubscribedData();
     }, [newsData]);
 
     useEffect(() => {
@@ -101,13 +103,7 @@ export default function News() {
             <NavTab setOnClick={setOnClick} tabType={tabType} />
             <div className={styles.media__container}>
                 {tabType.view === 'GRID_VIEW_TYPE' && gridData[page.grid] ? (
-                    <GridNews
-                        gridNewsData={gridData}
-                        page={page.grid}
-                        setPage={setPage}
-                        tabType={tabType}
-                        setSubscribedData={initializeSubscribedData}
-                    />
+                    <GridNews gridNewsData={gridData} page={page.grid} setPage={setPage} tabType={tabType} reSubscribedData={reSubscribedData} />
                 ) : (
                     ''
                 )}

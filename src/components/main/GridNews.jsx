@@ -7,7 +7,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { insertSubscribeData, selectAllSubscribeData, deleteSubscribeData } from '../../api/subscribeData';
 import { fetchNewsData } from '../../api/fetchNewsData';
 
-export default function GridNews({ gridNewsData, page, setPage, tabType, setSubscribedData }) {
+export default function GridNews({ gridNewsData, page, setPage, tabType, reSubscribedData }) {
     const { gridRow, gridCol, gridMaxPage, subscribes, setSubscribes, newsData, setNewsData } = useContext(NewsContext);
 
     const containerRef = useRef(null);
@@ -30,7 +30,9 @@ export default function GridNews({ gridNewsData, page, setPage, tabType, setSubs
     const unSubscribe = async (idToDelete) => {
         const deleteResult = await deleteSubscribeData(idToDelete);
         if (deleteResult.result) {
-            setSubscribedData();
+            const newsData = await fetchNewsData({ type: 'news' });
+            setNewsData(newsData);
+            reSubscribedData();
         }
     };
 
