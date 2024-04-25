@@ -7,7 +7,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { insertSubscribeData, selectAllSubscribeData, deleteSubscribeData } from '../../api/subscribeData';
 import { fetchNewsData } from '../../api/fetchNewsData';
 
-export default function GridNews({ gridNewsData, page, setPage, tabType, reSubscribedData }) {
+export default function GridNews({ gridNewsData, page, setPage, tabType }) {
     const { gridRow, gridCol, gridMaxPage, subscribes, setSubscribes, newsData, setNewsData } = useContext(NewsContext);
 
     const containerRef = useRef(null);
@@ -30,9 +30,11 @@ export default function GridNews({ gridNewsData, page, setPage, tabType, reSubsc
     const unSubscribe = async (idToDelete) => {
         const deleteResult = await deleteSubscribeData(idToDelete);
         if (deleteResult.result) {
-            const newsData = await fetchNewsData({ type: 'news' });
-            setNewsData(newsData);
-            reSubscribedData();
+            const data = await fetchNewsData({ type: 'news' });
+            // console.log('data: ', data);
+            // console.log('newsData 전 : ', newsData);
+
+            setNewsData(data);
         }
     };
 
@@ -85,20 +87,24 @@ export default function GridNews({ gridNewsData, page, setPage, tabType, reSubsc
             <GridLine />
 
             <div className={styles.media__grid_type__container} style={gridStyle}>
-                {gridNewsData[page].map((press) => (
-                    <div key={press.id} id={press.id} style={subscribedPressStyle}>
-                        <a href="#" className={styles['media__subscription-news-view']}>
-                            <img src={press.logoImageSrc} alt={press.pressName} className={styles['media__grid_type__news_logo']}></img>
-                        </a>
-                        <button
-                            className={styles['media__grid_type__subscribe_btn']}
-                            onClick={setSubscribe}
-                            subscribe={isSubscribed(press.pressName) ? 'true' : 'false'}
-                        >
-                            {isSubscribed(press.pressName) ? '😥해지하기' : ' 💙구독하기'}
-                        </button>
-                    </div>
-                ))}
+                {gridNewsData.length ? (
+                    gridNewsData[page].map((press) => (
+                        <div key={press.id} id={press.id} style={subscribedPressStyle}>
+                            <a href="#" className={styles['media__subscription-news-view']}>
+                                <img src={press.logoImageSrc} alt={press.pressName} className={styles['media__grid_type__news_logo']}></img>
+                            </a>
+                            <button
+                                className={styles['media__grid_type__subscribe_btn']}
+                                onClick={setSubscribe}
+                                subscribe={isSubscribed(press.pressName) ? 'true' : 'false'}
+                            >
+                                {isSubscribed(press.pressName) ? '😥해지하기' : ' 💙구독하기'}
+                            </button>
+                        </div>
+                    ))
+                ) : (
+                    <></>
+                )}
             </div>
 
             {page > 0 && <LeftOutlined className={news.angle_left} onClick={prevArrowClick} />}

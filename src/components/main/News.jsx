@@ -21,6 +21,7 @@ export default function News() {
         },
         'my-press-tab': () => {
             setTabType((prev) => ({ ...prev, subscribe: 'SUBSCRIBED_PRESS' }));
+
             setPage({ grid: 0, list: 0 });
         },
         'list-view-tab': () => {
@@ -35,7 +36,6 @@ export default function News() {
 
     const setOnClick = (e) => {
         const type = e.target.id;
-
         if (changeTabType[type]) changeTabType[type]();
     };
 
@@ -52,11 +52,13 @@ export default function News() {
     const getgridData = (type) => {
         const data = type === 'SUBSCRIBED_PRESS' ? newsData.subscribe : newsData.news;
 
-        if (!data.length) return;
+        if (!data) return;
+        if (data && !data.length) {
+            setGridData([]);
+            return;
+        }
 
-        const filterData = data.map((e) => {
-            return { id: e.id, pressName: e.pressName, logoImageSrc: e.logoImageSrc };
-        });
+        const filterData = data.map((e) => ({ id: e.id, pressName: e.pressName, logoImageSrc: e.logoImageSrc }));
         const elementCount = gridRow * gridCol;
         const slicedData = sliceData(elementCount, filterData);
         const maxPageData = slicedData.slice(0, gridMaxPage);
@@ -75,23 +77,26 @@ export default function News() {
                 getgridData('ALL_PRESS');
             }
             if (tabType.subscribe === 'SUBSCRIBED_PRESS' && tabType.view === 'GRID_VIEW_TYPE') {
+                // console.log('initializeDataByType - SUBSCRIBED_PRESS');
                 getgridData('SUBSCRIBED_PRESS');
             }
         }
     };
 
-    const reSubscribedData = () => {
-        initializeSubscribedData();
-        initializeDataByType();
-    };
-
     useEffect(() => {
-        if (newsData) reSubscribedData();
+        // if (newsData) reSubscribedData();
+        if (newsData) {
+            // console.log('newsData 후 : ', newsData);
+            initializeSubscribedData();
+            setNewsData(newsData);
+            initializeDataByType();
+        }
     }, [newsData]);
 
     useEffect(() => {
         const initializeData = async () => {
             const newsData = await fetchNewsData({ type: 'news' });
+
             setNewsData(newsData);
         };
 
@@ -103,7 +108,7 @@ export default function News() {
             <NavTab setOnClick={setOnClick} tabType={tabType} />
             <div className={styles.media__container}>
                 {tabType.view === 'GRID_VIEW_TYPE' && gridData[page.grid] ? (
-                    <GridNews gridNewsData={gridData} page={page.grid} setPage={setPage} tabType={tabType} reSubscribedData={reSubscribedData} />
+                    <GridNews gridNewsData={gridData} page={page.grid} setPage={setPage} tabType={tabType} />
                 ) : (
                     ''
                 )}

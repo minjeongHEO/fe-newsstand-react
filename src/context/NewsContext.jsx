@@ -7,7 +7,7 @@ export default function NewsProvider({ children, initGridRow, initGridcol, initG
     const [gridCol, setGridCol] = useState(initGridcol);
     const [gridMaxPage, setGridMaxPage] = useState(initGridMaxPage);
 
-    const [newsData, setNewsData] = useState(null);
+    const [newsData, setNewsData] = useState([]);
     const [subscribes, setSubscribes] = useState([]);
 
     return (
