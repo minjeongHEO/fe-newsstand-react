@@ -87,7 +87,7 @@ export default function GridNews({ gridNewsData, page, setPage, tabType }) {
             <GridLine />
 
             <div className={styles.media__grid_type__container} style={gridStyle}>
-                {gridNewsData.length ? (
+                {gridNewsData.length &&
                     gridNewsData[page].map((press) => (
                         <div key={press.id} id={press.id} style={subscribedPressStyle}>
                             <a href="#" className={styles['media__subscription-news-view']}>
@@ -101,10 +101,7 @@ export default function GridNews({ gridNewsData, page, setPage, tabType }) {
                                 {isSubscribed(press.pressName) ? '😥해지하기' : ' 💙구독하기'}
                             </button>
                         </div>
-                    ))
-                ) : (
-                    <></>
-                )}
+                    ))}
             </div>
 
             {page > 0 && <LeftOutlined className={news.angle_left} onClick={prevArrowClick} />}

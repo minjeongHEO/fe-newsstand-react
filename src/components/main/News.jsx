@@ -10,8 +10,8 @@ import { fetchNewsData } from '../../api/fetchNewsData';
 export default function News() {
     const { gridRow, gridCol, gridMaxPage, subscribes, setSubscribes, newsData, setNewsData } = useContext(NewsContext);
     const [tabType, setTabType] = useState({ subscribe: 'ALL_PRESS', view: 'GRID_VIEW_TYPE' });
-    const [gridData, setGridData] = useState([]);
-    const [listData, setListData] = useState([]);
+
+    const [dataByViewType, setDataByViewType] = useState({ grid: [], list: [] });
     const [page, setPage] = useState({ grid: 0, list: 0 });
 
     const changeTabType = {
@@ -21,7 +21,6 @@ export default function News() {
         },
         'my-press-tab': () => {
             setTabType((prev) => ({ ...prev, subscribe: 'SUBSCRIBED_PRESS' }));
-
             setPage({ grid: 0, list: 0 });
         },
         'list-view-tab': () => {
@@ -45,16 +44,16 @@ export default function News() {
     };
 
     /**
-     * @param {String} type - 데이터의 유형을 지정한다.
+     * @param {String} type - 그리드 타입 데이터의 유형을 지정한다.
      *      "ALL_PRESS" : 전체 데이터
      *      "SUBSCRIBED_PRESS" : 사용자가 구독한 데이터
      */
-    const getgridData = (type) => {
+    const getGridData = (type) => {
         const data = type === 'SUBSCRIBED_PRESS' ? newsData.subscribe : newsData.news;
 
         if (!data) return;
         if (data && !data.length) {
-            setGridData([]);
+            setDataByViewType((prev) => ({ ...prev, grid: [] }));
             return;
         }
 
@@ -63,7 +62,7 @@ export default function News() {
         const slicedData = sliceData(elementCount, filterData);
         const maxPageData = slicedData.slice(0, gridMaxPage);
 
-        setGridData(maxPageData);
+        setDataByViewType((prev) => ({ ...prev, grid: maxPageData }));
     };
 
     const initializeSubscribedData = async () => {
@@ -73,20 +72,15 @@ export default function News() {
 
     const initializeDataByType = () => {
         if (newsData) {
-            if (tabType.subscribe === 'ALL_PRESS' && tabType.view === 'GRID_VIEW_TYPE') {
-                getgridData('ALL_PRESS');
-            }
-            if (tabType.subscribe === 'SUBSCRIBED_PRESS' && tabType.view === 'GRID_VIEW_TYPE') {
-                // console.log('initializeDataByType - SUBSCRIBED_PRESS');
-                getgridData('SUBSCRIBED_PRESS');
-            }
+            if (tabType.view === 'GRID_VIEW_TYPE' && tabType.subscribe === 'ALL_PRESS') getGridData('ALL_PRESS');
+            if (tabType.view === 'GRID_VIEW_TYPE' && tabType.subscribe === 'SUBSCRIBED_PRESS') getGridData('SUBSCRIBED_PRESS');
+            if (tabType.view === 'LIST_VIEW_TYPE' && tabType.subscribe === 'ALL_PRESS') getListData('ALL_PRESS');
+            if (tabType.view === 'LIST_VIEW_TYPE' && tabType.subscribe === 'SUBSCRIBED_PRESS') getListData('SUBSCRIBED_PRESS');
         }
     };
 
     useEffect(() => {
-        // if (newsData) reSubscribedData();
         if (newsData) {
-            // console.log('newsData 후 : ', newsData);
             initializeSubscribedData();
             setNewsData(newsData);
             initializeDataByType();
@@ -107,8 +101,8 @@ export default function News() {
         <div>
             <NavTab setOnClick={setOnClick} tabType={tabType} />
             <div className={styles.media__container}>
-                {tabType.view === 'GRID_VIEW_TYPE' && gridData[page.grid] && (
-                    <GridNews gridNewsData={gridData} page={page.grid} setPage={setPage} tabType={tabType} />
+                {tabType.view === 'GRID_VIEW_TYPE' && dataByViewType.grid[page.grid] && (
+                    <GridNews gridNewsData={dataByViewType.grid} page={page.grid} setPage={setPage} tabType={tabType} />
                 )}
                 {tabType.view === 'LIST_VIEW_TYPE' && <ListNews />}
             </div>
