@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Plug'n'Play 관련 파일
+.pnp.*               
+.pnp.cjs
