@@ -1,8 +1,7 @@
 .media__category_bar {
   display: flex;
   overflow-x: auto;
-  /* 스크롤바 지우기 */
-  /* scrollbar-width: none;  */
+  -ms-overflow-style: none;
   align-items: center; /* 세로 방향 가운데 정렬 */
   justify-content: flex-start;
   height: 40px;
@@ -18,6 +17,10 @@
     height: 100%;
     flex-basis: 150px;
   }
+}
+
+.media__category_bar::-webkit-scrollbar {
+  display: none;
 }
 
 .media__news_container {

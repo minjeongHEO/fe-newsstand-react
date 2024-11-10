@@ -118,7 +118,7 @@ export default function News() {
         {tabType.view === 'GRID_VIEW_TYPE' && dataByViewType.grid[page.grid] && (
           <GridNews gridNewsData={dataByViewType.grid} page={page.grid} setPage={setPage} tabType={tabType} />
         )}
-        {tabType.view === 'LIST_VIEW_TYPE' && <ListNews newsData={newsData} tabType={tabType} page={page} />}
+        {tabType.view === 'LIST_VIEW_TYPE' && <ListNews newsData={newsData} tabType={tabType} />}
       </div>
     </div>
   );

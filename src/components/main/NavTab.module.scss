@@ -2,44 +2,45 @@
 
 #list-tab,
 #grid-tab {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .grid-option-select {
-    fill: $default-logo-color;
+  fill: $default-logo-color;
 }
 .grid-option {
-    fill: $default-deselect-color;
+  fill: $default-deselect-color;
 }
 
 .nav__container {
-    margin: 2px 98px 2px 98px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    height: 60px;
+  margin: 2px 98px 2px 98px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
 }
 
 .nav__container__press {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-
-    .nav__press-contents {
-        margin-right: 20px;
-        font-size: 25px;
-        color: $nav-font-color;
-    }
-    .contents-select {
-        font-weight: bold;
-        color: $default-font-color;
-    }
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  cursor: pointer;
+  .nav__press-contents {
+    margin-right: 20px;
+    font-size: 25px;
+    color: $nav-font-color;
+  }
+  .contents-select {
+    font-weight: bold;
+    color: $default-font-color;
+  }
 }
 
 .nav__container__view_type {
-    display: flex;
-    flex-flow: row;
-    justify-content: space-between;
-    width: 70px;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  width: 70px;
+  cursor: pointer;
 }
