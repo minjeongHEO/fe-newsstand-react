@@ -1,10 +1,13 @@
 @import './variable.scss';
 
 #wrap {
-    margin: 0 auto;
-    max-width: 1300px;
-    min-width: 650px;
-    text-align: center;
-    padding: 2rem;
-    background-color: $test-color1;
+  margin: 0 auto;
+  max-width: 81.25rem; // 1300px
+  min-width: 40.625rem; // 650px
+  text-align: center;
+  padding: 2rem;
+  a:link,
+  a:visited {
+    color: $default-font-color;
+  }
 }
