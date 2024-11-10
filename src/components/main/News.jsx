@@ -44,6 +44,20 @@ export default function News() {
   };
 
   /**
+   * @param {String} type - 리스트 타입 데이터의 유형을 지정한다.
+   *      "ALL_PRESS" : 전체 데이터
+   *      "SUBSCRIBED_PRESS" : 사용자가 구독한 데이터
+   */
+  const getListData = (type) => {
+    const data = type === 'SUBSCRIBED_PRESS' ? newsData.subscribe : newsData.news;
+
+    if (!data) return;
+    if (data && !data.length) {
+      setDataByViewType((prev) => ({ ...prev, list: [] }));
+      return;
+    }
+  };
+  /**
    * @param {String} type - 그리드 타입 데이터의 유형을 지정한다.
    *      "ALL_PRESS" : 전체 데이터
    *      "SUBSCRIBED_PRESS" : 사용자가 구독한 데이터
@@ -104,7 +118,7 @@ export default function News() {
         {tabType.view === 'GRID_VIEW_TYPE' && dataByViewType.grid[page.grid] && (
           <GridNews gridNewsData={dataByViewType.grid} page={page.grid} setPage={setPage} tabType={tabType} />
         )}
-        {tabType.view === 'LIST_VIEW_TYPE' && <ListNews />}
+        {tabType.view === 'LIST_VIEW_TYPE' && <ListNews newsData={newsData} tabType={tabType} page={page} />}
       </div>
     </div>
   );
