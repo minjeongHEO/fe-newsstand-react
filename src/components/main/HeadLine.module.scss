@@ -1,18 +1,18 @@
 .container {
-    margin: 2px 98px 2px 98px;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    align-items: center;
-    height: 100px;
+  // margin: 2px 98px 2px 98px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
 }
 
 .contents {
-    display: flex;
-    align-items: center;
-    width: 48%;
-    min-width: 450px;
-    outline: solid 2px #d2dae0;
-    background-color: #f6f7f9;
-    font-size: 18px;
+  display: flex;
+  align-items: center;
+  width: 48%;
+  min-width: 28rem;
+  outline: solid 2px #d2dae0;
+  background-color: #f6f7f9;
+  font-size: 18px;
 }

@@ -39,7 +39,6 @@ export default function ListNews({ newsData, tabType }) {
 
   useEffect(() => {
     if (!listNewsData || !listNewsData.length) return;
-    console.log(listNewsData);
     setCurrentPageNewsData(listNewsData[clickedCategory][page]);
   }, [tabType.subscribe, listNewsData, clickedCategory, page]);
 

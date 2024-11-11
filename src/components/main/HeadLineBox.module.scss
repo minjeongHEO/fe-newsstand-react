@@ -1,63 +1,64 @@
 @import '../variable.scss';
 
 .container {
-    margin: 2px 98px 2px 98px;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    align-items: center;
-    height: 100px;
+  margin: 2px 98px 2px 98px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
 }
 
 .contents {
-    overflow: hidden;
-    height: 40px;
-    align-items: center;
-    width: 48%;
-    min-width: 450px;
-    outline: solid 2px $grid-line-color;
-    background-color: $default-bg-color;
-    font-size: 18px;
+  overflow: hidden;
+  height: 2.5rem;
+  align-items: center;
+  width: 48%;
+  min-width: 28rem;
+  outline: solid 2px $grid-line-color;
+  background-color: $default-bg-color;
+  font-size: 1rem;
+  text-align: center;
 }
 
 .press_name {
-    font-weight: bold;
-    width: 20%;
+  font-weight: bold;
+  width: 20%;
 }
 
 .news {
-    width: 80%;
-    a {
-        display: block;
-        width: 415px;
-        max-width: 352px;
+  width: 80%;
+  a {
+    display: block;
+    width: 415px;
+    max-width: 352px;
 
-        white-space: nowrap; /* 텍스트를 한 줄로 표시 */
-        overflow: hidden; /* 내용이 너비를 초과할 경우 숨김 처리 */
-        text-overflow: ellipsis; /* 내용이 너비를 초과할 경우 말줄임표로 표시 */
-    }
+    white-space: nowrap; /* 텍스트를 한 줄로 표시 */
+    overflow: hidden; /* 내용이 너비를 초과할 경우 숨김 처리 */
+    text-overflow: ellipsis; /* 내용이 너비를 초과할 경우 말줄임표로 표시 */
+  }
 }
 
 .headline__head_line {
-    display: flex;
-    flex-direction: column;
-    font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
 }
 
 .rolling_box {
-    overflow: hidden;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    margin: 12px 0px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 12px 0px;
 
-    a {
-        text-decoration: none;
-    }
-    a:hover {
-        text-decoration: underline;
-    }
+  a {
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
 }
 
 /* .text_move_up { */
@@ -68,18 +69,18 @@
 /* } */
 
 .text_move_up {
-    animation: textMoveUp 3s forwards;
+  animation: textMoveUp 3s forwards;
 }
 
 @keyframes textMoveUp {
-    from {
-        transform: translateY(0);
-    }
-    to {
-        transform: translateY(-170%);
-    }
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-170%);
+  }
 }
 
 .text_move_up_paused {
-    animation-play-state: paused;
+  animation-play-state: paused;
 }

@@ -1,11 +1,21 @@
 @import './variable.scss';
 
+* {
+  box-sizing: border-box;
+}
+
 #wrap {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
   margin: 0 auto;
   max-width: 81.25rem; // 1300px
   min-width: 40.625rem; // 650px
-  text-align: center;
-  padding: 2rem;
+
+  padding: 0rem 6.125rem;
+
   a:link,
   a:visited {
     color: $default-font-color;

@@ -13,12 +13,13 @@
 }
 
 .nav__container {
-  margin: 2px 98px 2px 98px;
+  // margin: 0.1rem 6.125rem;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  height: 60px;
+  height: 3.75rem;
+  min-width: 28rem;
 }
 
 .nav__container__press {

@@ -1,28 +1,31 @@
 @import '../variable.scss';
 
 .media__container {
-    margin: 2px 98px 2px 98px;
-    height: 388px;
-    align-items: center;
-    position: relative;
+  // margin: 0.1rem 6.125rem;
+  // padding: 0.1rem 6.125rem;
+  height: 25rem;
+  align-items: center;
+  position: relative;
 
-    border: solid 1px $grid-line-color;
+  // border: solid 1px $test-color2;
+  // border: solid 1px $grid-line-color;
+  min-width: 28rem;
 }
 
 .angle_left {
-    position: absolute;
-    font-size: 3em;
-    top: 45%;
-    right: 103%;
-    opacity: 50%;
-    cursor: pointer;
+  position: absolute;
+  font-size: 3em;
+  top: 45%;
+  right: 103%;
+  opacity: 50%;
+  cursor: pointer;
 }
 
 .angle_right {
-    position: absolute;
-    font-size: 3em;
-    top: 45%;
-    left: 103%;
-    opacity: 50%;
-    cursor: pointer;
+  position: absolute;
+  font-size: 3em;
+  top: 45%;
+  left: 103%;
+  opacity: 50%;
+  cursor: pointer;
 }
