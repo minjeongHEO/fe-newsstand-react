@@ -5,6 +5,12 @@ import News from './main/News';
 import NewsProvider from '../context/NewsContext';
 import { GRID_ROW, GRID_COL, GRID_MAX_PAGE, GRID_COUNT } from '../constants/grid';
 
+import setupLocatorUI from '@locator/runtime';
+
+if (process.env.NODE_ENV === 'development') {
+  setupLocatorUI();
+}
+
 function App() {
   return (
     <div id={styles.wrap}>
