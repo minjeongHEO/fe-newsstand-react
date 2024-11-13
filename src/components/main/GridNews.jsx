@@ -25,10 +25,11 @@ export default function GridNews({ gridNewsData, page, setPage, tabType }) {
 
   const prevArrowClick = () => setPage((prev) => ({ ...prev, grid: prev.grid - 1 }));
   const nextArrowClick = () => setPage((prev) => ({ ...prev, grid: prev.grid + 1 }));
-  const isSubscribed = (pressNameToCheck) => !!subscribes.find(({ pressName }) => pressName === pressNameToCheck);
+  const isSubscribed = (newsId) => !!subscribes.find(({ id }) => id === newsId);
 
   const unSubscribe = async (idToDelete) => {
     const deleteResult = await deleteSubscribeData(idToDelete);
+
     if (deleteResult.result) {
       const data = await fetchNewsData({ type: 'news' });
 
@@ -47,19 +48,22 @@ export default function GridNews({ gridNewsData, page, setPage, tabType }) {
     }
   };
 
-  const setSubscribe = async ({ target }) => {
-    const id = target.parentNode.id;
-    const imgTarget = target.parentNode.children[0].children[0];
-    const pressName = imgTarget.alt;
-    const logoImageSrc = imgTarget.src;
+  const filterNewsData = (targetNewsID) => {
+    return newsData.news.filter(({ id }) => id === targetNewsID)[0];
+  };
 
-    const subscribeObj = { id, pressName, logoImageSrc };
+  const handleSubscribe = async ({ target }) => {
+    const id = target.parentNode.id;
+    const subscribeObj = filterNewsData(id);
 
     //구독하기
-    if (target.getAttribute('subscribe') === 'false') subscribe(subscribeObj);
+    if (target.getAttribute('subscribe') === 'false') {
+      subscribe(subscribeObj);
+    }
     //해지하기
-    if (target.getAttribute('subscribe') === 'true') unSubscribe(id);
-
+    if (target.getAttribute('subscribe') === 'true') {
+      unSubscribe(id);
+    }
     if (tabType.subscribe === 'SUBSCRIBED_PRESS') {
     }
   };
@@ -83,24 +87,20 @@ export default function GridNews({ gridNewsData, page, setPage, tabType }) {
   return (
     <div ref={containerRef} className={styles.gridContainer}>
       <GridLine />
-
-      <div className={styles.media__grid_type__container} style={gridStyle}>
-        {gridNewsData.length &&
-          gridNewsData[page].map((press) => (
-            <div key={press.id} id={press.id} style={subscribedPressStyle}>
+      {Array.isArray(gridNewsData) && gridNewsData.length > 0 && gridNewsData[page] ? (
+        <div className={styles.media__grid_type__container} style={gridStyle}>
+          {gridNewsData[page].map(({ id, logoImageSrc, pressName }) => (
+            <div key={id} id={id} style={subscribedPressStyle}>
               <a href="#" className={styles['media__subscription-news-view']}>
-                <img src={press.logoImageSrc} alt={press.pressName} className={styles['media__grid_type__news_logo']}></img>
+                <img src={logoImageSrc} alt={pressName} className={styles['media__grid_type__news_logo']}></img>
               </a>
-              <button
-                className={styles['media__grid_type__subscribe_btn']}
-                onClick={setSubscribe}
-                subscribe={isSubscribed(press.pressName) ? 'true' : 'false'}
-              >
-                {isSubscribed(press.pressName) ? '😥해지하기' : ' 💙구독하기'}
+              <button className={styles['media__grid_type__subscribe_btn']} onClick={handleSubscribe} subscribe={isSubscribed(id) ? 'true' : 'false'}>
+                {isSubscribed(id) ? '😥 해지하기' : ' 💙 구독하기'}
               </button>
             </div>
           ))}
-      </div>
+        </div>
+      ) : null}
 
       {page > 0 && <LeftOutlined className={news.angle_left} onClick={prevArrowClick} />}
       {page < gridMaxPage - 1 && gridNewsData.length > 1 && <RightOutlined className={news.angle_right} onClick={nextArrowClick} />}
