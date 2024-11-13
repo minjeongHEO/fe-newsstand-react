@@ -10,7 +10,7 @@ $ corepack enable
 $ yarn install
 
 # json-server 실행
-$ npx json-server ./src/json/subscribeNewsData.json
+$ npx json-server ./public/data/news.json
 
 $ yarn dev
 ```
