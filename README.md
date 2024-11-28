@@ -63,8 +63,7 @@ props drilling 문제가 보이면 `Context API`를 적용해본다.
 - [x] 그리드 - 구독
 - [x] 그리드 - 구독취소
 
-- [ ] 메인화면 레이아웃 그리기 - 리스트
-- [ ] 메인화면 nav - 뉴스 롤링 기능
+- [x] 메인화면 레이아웃 그리기 - 리스트
 
 <br>
 
@@ -100,5 +99,3 @@ graph TD;
 
 
 ```
-
-    NewsContext = row={ } col={ } maxPage={ }
