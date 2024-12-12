@@ -34,8 +34,11 @@ export default function News() {
   };
 
   const setOnClick = (e) => {
-    const type = e.target.id;
-    if (changeTabType[type]) changeTabType[type]();
+    const element = e.target.closest('[data-view-type]');
+    if (!element) return;
+    const type = element.dataset.viewType;
+
+    if (type && changeTabType[type]) changeTabType[type]();
   };
 
   const sliceData = (elementCount, data) => {
@@ -104,7 +107,6 @@ export default function News() {
   useEffect(() => {
     const initializeData = async () => {
       const newsData = await fetchNewsData({ type: 'news' });
-
       setNewsData(newsData);
     };
 
