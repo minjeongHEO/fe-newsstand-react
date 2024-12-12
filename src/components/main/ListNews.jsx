@@ -139,9 +139,9 @@ export default function ListNews({ newsData, tabType, clickedCategoryIndex, setC
         </div>
 
         {/* 리스트 카테고리 뉴스 */}
-        {currentPageNewsData && (
-          <>
-            <div className={styles.media__news_container}>
+        <div className={styles.media__news_container}>
+          {currentPageNewsData && (
+            <>
               <div className={styles.media__news_logo}>
                 <a href="#">
                   <img src={currentPageNewsData.logoImageSrc} height="20" width="auto" alt={currentPageNewsData.pressName} />
@@ -178,9 +178,9 @@ export default function ListNews({ newsData, tabType, clickedCategoryIndex, setC
                   <li> {currentPageNewsData.pressName} 언론사에서 직접 편집한 뉴스입니다.</li>
                 </ul>
               </div>
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </div>
       </div>
       <RightOutlined className={styles.angle_right} onClick={nextArrowClick} />
     </>
