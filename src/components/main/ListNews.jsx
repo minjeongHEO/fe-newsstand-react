@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styles from './ListNews.module.scss';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { NewsContext } from '../../context/NewsContext';
+import { insertSubscribeData, selectAllSubscribeData } from '../../api/subscribeData';
+import { fetchNewsData } from '../../api/fetchNewsData';
 
-export default function ListNews({ newsData, tabType, clickedCategoryIndex, setClickedCategoryIndex, page, setPage }) {
+export default function ListNews({ tabType, setTabType, clickedCategoryIndex, setClickedCategoryIndex, page, setPage }) {
+  const { setSubscribes, newsData, setNewsData } = useContext(NewsContext);
+
   const [categories, setCategories] = useState([]);
   const [listNewsData, setListNewsData] = useState(null);
   const [currentPageNewsData, setCurrentPageNewsData] = useState(null);
-
-  const [news, setNews] = useState(newsData.news);
-  const [subscribeNews, setSubscribeNews] = useState(newsData.subscribe);
 
   const NEWS_DATA_MAP = {
     ALL_PRESS: newsData.news,
@@ -25,30 +26,31 @@ export default function ListNews({ newsData, tabType, clickedCategoryIndex, setC
     }, initialArray);
   };
 
-  const extractCategories = (newsData) => [...new Set(newsData.map(({ category }) => category))];
+  const extractCategories = (newsData) => (newsData ? [...new Set(newsData.map(({ category }) => category))] : []);
 
   const getCurrentNewsData = (subscribeType) => NEWS_DATA_MAP[subscribeType] || [];
 
   const filterNewsByCategories = (newsItems, categories) => {
-    return newsItems.filter(({ category }) => categories.includes(category));
+    return newsItems && newsItems.filter(({ category }) => categories.includes(category));
   };
 
   useEffect(() => {
     // const currentNewsData = getCurrentNewsData(tabType.subscribe);
 
     if (tabType.subscribe === 'ALL_PRESS') {
-      setCategories(extractCategories(news));
+      setCategories(extractCategories(newsData.news));
       return;
     }
 
     if (tabType.subscribe === 'SUBSCRIBED_PRESS') {
       const subscribedCategories = extractCategories(newsData.subscribe);
-      const filteredNews = filterNewsByCategories(news, subscribedCategories);
+      const filteredNews = filterNewsByCategories(newsData.news, subscribedCategories);
+      if (!filteredNews) return;
       const filteredCategories = extractCategories(filteredNews);
       setCategories(filteredCategories);
       return;
     }
-  }, [newsData, news, tabType.subscribe]);
+  }, [newsData, newsData.news, tabType.subscribe]);
 
   useEffect(() => {
     const currentNewsData = getCurrentNewsData(tabType.subscribe);
@@ -86,6 +88,7 @@ export default function ListNews({ newsData, tabType, clickedCategoryIndex, setC
     setPage((prev) => ({ ...prev, list: prev.list + 1 }));
   };
 
+  /** 구독 해지하기 */
   const unSubscribe = async (idToDelete) => {
     // const deleteResult = await deleteSubscribeData(idToDelete);
     // if (deleteResult.result) {
@@ -94,30 +97,39 @@ export default function ListNews({ newsData, tabType, clickedCategoryIndex, setC
     // }
   };
 
+  /** 구독하기 */
   const subscribe = async (subscribeObj) => {
-    // const insertResult = await insertSubscribeData(subscribeObj);
-    // const newNewsData = await fetchNewsData({ type: 'news' });
-    // setNewsData(newNewsData);
-    // if (insertResult.result) {
-    //   const selectAllResult = await selectAllSubscribeData();
-    //   if (selectAllResult.result) setSubscribes(selectAllResult.data);
+    console.log(subscribeObj);
+    const insertResult = await insertSubscribeData(subscribeObj);
+    const newNewsData = await fetchNewsData({ type: 'news' });
+
+    setNewsData(newNewsData.news);
+
+    if (insertResult.result) {
+      const selectAllResult = await selectAllSubscribeData();
+      if (selectAllResult.result) setSubscribes(selectAllResult.data);
+
+      setTabType((prev) => ({ ...prev, subscribe: 'SUBSCRIBED_PRESS' }));
+      setClickedCategoryIndex(0);
+      setPage((prev) => ({ ...prev, list: 0 }));
+    }
+  };
+
+  const handleSubscribe = (currentPageNewsData, isSubscribed) => {
+    //구독하기
+    if (!isSubscribed) {
+      subscribe(currentPageNewsData);
+      return;
+    }
+    //해지하기
+    if (isSubscribed) {
+      unSubscribe(currentPageNewsData.id);
+    }
+    // if (tabType.subscribe === 'SUBSCRIBED_PRESS') {
     // }
   };
 
-  // const handleSubscribe = async (currentPageNewsData, isSubscribed) => {
-  //   //구독하기
-  //   if (!isSubscribed) {
-  //     subscribe(currentPageNewsData);
-  //   }
-  //   //해지하기
-  //   if (isSubscribed) {
-  //     unSubscribe(currentPageNewsData.id);
-  //   }
-  //   if (tabType.subscribe === 'SUBSCRIBED_PRESS') {
-  //   }
-  // };
-
-  const isSubscribed = (newsId, subscribe) => !!subscribe.find(({ id }) => id === newsId);
+  const isSubscribed = (newsId, subscribe) => subscribe && !!subscribe.find(({ id }) => id === newsId);
 
   return (
     <>
@@ -150,10 +162,9 @@ export default function ListNews({ newsData, tabType, clickedCategoryIndex, setC
                 <button
                   type="button"
                   className={styles.media__news_subscribe_btn}
-                  aria-pressed="${pressedStatus}"
-                  // onClick={() => handleSubscribe(currentPageNewsData, isSubscribed(currentPageNewsData.id, subscribe))}
+                  onClick={() => handleSubscribe(currentPageNewsData, isSubscribed(currentPageNewsData.id, newsData.subscribe))}
                 >
-                  {isSubscribed(currentPageNewsData.id, subscribeNews) ? '😥 해지하기' : ' 💙 구독하기'}
+                  {isSubscribed(currentPageNewsData.id, newsData.subscribe) ? '😥 해지하기' : ' 💙 구독하기'}
                 </button>
               </div>
 

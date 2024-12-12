@@ -9,6 +9,7 @@ import { fetchNewsData } from '../../api/fetchNewsData';
 
 export default function News() {
   const { gridRow, gridCol, gridMaxPage, subscribes, setSubscribes, newsData, setNewsData } = useContext(NewsContext);
+
   const [tabType, setTabType] = useState({ subscribe: 'ALL_PRESS', view: 'GRID_VIEW_TYPE' });
 
   const [dataByViewType, setDataByViewType] = useState({ grid: [], list: [] });
@@ -121,7 +122,7 @@ export default function News() {
       <div className={styles.media__container}>
         {tabType.view === 'GRID_VIEW_TYPE' && <GridNews gridNewsData={dataByViewType.grid} page={page.grid} setPage={setPage} tabType={tabType} />}
         {tabType.view === 'LIST_VIEW_TYPE' && (
-          <ListNews {...{ newsData, tabType, clickedCategoryIndex, setClickedCategoryIndex, setPage }} page={page.list} />
+          <ListNews {...{ tabType, setTabType, clickedCategoryIndex, setClickedCategoryIndex, setPage }} page={page.list} />
         )}
       </div>
     </div>
