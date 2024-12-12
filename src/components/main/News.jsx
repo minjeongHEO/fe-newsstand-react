@@ -13,6 +13,7 @@ export default function News() {
 
   const [dataByViewType, setDataByViewType] = useState({ grid: [], list: [] });
   const [page, setPage] = useState({ grid: 0, list: 0 });
+  const [clickedCategoryIndex, setClickedCategoryIndex] = useState(0);
 
   const changeTabType = {
     'all-press-tab': () => {
@@ -34,6 +35,7 @@ export default function News() {
   };
 
   const setOnClick = (e) => {
+    setClickedCategoryIndex(0);
     const element = e.target.closest('[data-view-type]');
     if (!element) return;
     const type = element.dataset.viewType;
@@ -118,7 +120,7 @@ export default function News() {
       <NavTab setOnClick={setOnClick} tabType={tabType} />
       <div className={styles.media__container}>
         {tabType.view === 'GRID_VIEW_TYPE' && <GridNews gridNewsData={dataByViewType.grid} page={page.grid} setPage={setPage} tabType={tabType} />}
-        {tabType.view === 'LIST_VIEW_TYPE' && <ListNews newsData={newsData} tabType={tabType} />}
+        {tabType.view === 'LIST_VIEW_TYPE' && <ListNews {...{ newsData, tabType, clickedCategoryIndex, setClickedCategoryIndex }} />}
       </div>
     </div>
   );

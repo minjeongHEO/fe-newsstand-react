@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import styles from './ListNews.module.scss';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { NewsContext } from '../../context/NewsContext';
 
-export default function ListNews({ newsData, tabType }) {
+export default function ListNews({ newsData, tabType, clickedCategoryIndex, setClickedCategoryIndex }) {
   const [categories, setCategories] = useState([]);
   const [listNewsData, setListNewsData] = useState(null);
   const [currentPageNewsData, setCurrentPageNewsData] = useState(null);
 
   const [page, setPage] = useState(0);
-  const [clickedCategoryIndex, setClickedCategoryIndex] = useState(0);
+
+  const [news, setNews] = useState(newsData.news);
+  const [subscribeNews, setSubscribeNews] = useState(newsData.subscribe);
 
   const NEWS_DATA_MAP = {
     ALL_PRESS: newsData.news,
@@ -28,10 +31,26 @@ export default function ListNews({ newsData, tabType }) {
 
   const getCurrentNewsData = (subscribeType) => NEWS_DATA_MAP[subscribeType] || [];
 
+  const filterNewsByCategories = (newsItems, categories) => {
+    return newsItems.filter(({ category }) => categories.includes(category));
+  };
+
   useEffect(() => {
-    const currentNewsData = getCurrentNewsData(tabType.subscribe);
-    setCategories(extractCategories(currentNewsData));
-  }, [tabType.subscribe, newsData]);
+    // const currentNewsData = getCurrentNewsData(tabType.subscribe);
+
+    if (tabType.subscribe === 'ALL_PRESS') {
+      setCategories(extractCategories(news));
+      return;
+    }
+
+    if (tabType.subscribe === 'SUBSCRIBED_PRESS') {
+      const subscribedCategories = extractCategories(newsData.subscribe);
+      const filteredNews = filterNewsByCategories(news, subscribedCategories);
+      const filteredCategories = extractCategories(filteredNews);
+      setCategories(filteredCategories);
+      return;
+    }
+  }, [newsData, news, tabType.subscribe]);
 
   useEffect(() => {
     const currentNewsData = getCurrentNewsData(tabType.subscribe);
@@ -67,21 +86,59 @@ export default function ListNews({ newsData, tabType }) {
     setPage((prevPage) => prevPage + 1);
   };
 
+  const unSubscribe = async (idToDelete) => {
+    // const deleteResult = await deleteSubscribeData(idToDelete);
+    // if (deleteResult.result) {
+    //   const data = await fetchNewsData({ type: 'news' });
+    //   setNewsData(data);
+    // }
+  };
+
+  const subscribe = async (subscribeObj) => {
+    // const insertResult = await insertSubscribeData(subscribeObj);
+    // const newNewsData = await fetchNewsData({ type: 'news' });
+    // setNewsData(newNewsData);
+    // if (insertResult.result) {
+    //   const selectAllResult = await selectAllSubscribeData();
+    //   if (selectAllResult.result) setSubscribes(selectAllResult.data);
+    // }
+  };
+
+  // const handleSubscribe = async (currentPageNewsData, isSubscribed) => {
+  //   //구독하기
+  //   if (!isSubscribed) {
+  //     subscribe(currentPageNewsData);
+  //   }
+  //   //해지하기
+  //   if (isSubscribed) {
+  //     unSubscribe(currentPageNewsData.id);
+  //   }
+  //   if (tabType.subscribe === 'SUBSCRIBED_PRESS') {
+  //   }
+  // };
+
+  // const isSubscribed = (newsId, subscribe) => !!subscribe.find(({ id }) => id === newsId);
+
   return (
     <>
       <LeftOutlined className={styles.angle_left} onClick={prevArrowClick} />
+
       <div>
+        {/* 리스트 카테고리 바 */}
         <div className={styles.media__category_bar}>
-          {categories.map((category, idx) => {
-            return (
-              <div key={`category${idx}`} onClick={() => handleCategoryClick(idx)}>
-                <span>{category}</span>
-                <span style={{ marginLeft: '0.5rem' }}>{clickedCategoryIndex === idx && `${page + 1} / ${listNewsData[idx]?.length || 0}`}</span>
-              </div>
-            );
-          })}
+          {categories &&
+            categories.length > 0 &&
+            categories.map((category, idx) => {
+              return (
+                <div key={`category${idx}`} onClick={() => handleCategoryClick(idx)}>
+                  <span>{category}</span>
+                  <span style={{ marginLeft: '0.5rem' }}>{clickedCategoryIndex === idx && `${page + 1} / ${listNewsData[idx]?.length || 0}`}</span>
+                </div>
+              );
+            })}
         </div>
 
+        {/* 리스트 카테고리 뉴스 */}
         {currentPageNewsData && (
           <>
             <div className={styles.media__news_container}>
@@ -90,8 +147,13 @@ export default function ListNews({ newsData, tabType }) {
                   <img src={currentPageNewsData.logoImageSrc} height="20" width="auto" alt={currentPageNewsData.pressName} />
                 </a>
                 <span className={styles.media__news_time}>{currentPageNewsData.editedTime}</span>
-                <button type="button" className={styles.media__news_subscribe_btn} aria-pressed="${pressedStatus}">
-                  구독 버튼
+                <button
+                  type="button"
+                  className={styles.media__news_subscribe_btn}
+                  aria-pressed="${pressedStatus}"
+                  // onClick={() => handleSubscribe(currentPageNewsData, isSubscribed(currentPageNewsData.id, subscribe))}
+                >
+                  {/* {isSubscribed(currentPageNewsData.id, subscribe) ? '😥 해지하기' : ' 💙 구독하기'} */}
                 </button>
               </div>
 
