@@ -2,20 +2,24 @@ import React, { useContext, useEffect, useState } from 'react';
 import styles from './ListNews.module.scss';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { NewsContext } from '../../context/NewsContext';
-import { insertSubscribeData, selectAllSubscribeData } from '../../api/subscribeData';
+import { deleteSubscribeData, insertSubscribeData, selectAllSubscribeData } from '../../api/subscribeData';
 import { fetchNewsData } from '../../api/fetchNewsData';
 
-export default function ListNews({ tabType, setTabType, clickedCategoryIndex, setClickedCategoryIndex, page, setPage }) {
-  const { setSubscribes, newsData, setNewsData } = useContext(NewsContext);
+export default function ListNews({
+  listNewsData,
+  tabType,
+  setTabType,
+  setDataByViewType,
+  clickedCategoryIndex,
+  setClickedCategoryIndex,
+  page,
+  setPage,
+}) {
+  const { newsData, setNewsData } = useContext(NewsContext);
 
   const [categories, setCategories] = useState([]);
-  const [listNewsData, setListNewsData] = useState(null);
+  const [listNewsByCategory, setListNewsByCategory] = useState(null);
   const [currentPageNewsData, setCurrentPageNewsData] = useState(null);
-
-  const NEWS_DATA_MAP = {
-    ALL_PRESS: newsData.news,
-    SUBSCRIBED_PRESS: newsData.subscribe,
-  };
 
   const extractNewsByCategory = (newsData) => {
     const initialArray = Array.from({ length: categories.length }, () => []);
@@ -28,39 +32,39 @@ export default function ListNews({ tabType, setTabType, clickedCategoryIndex, se
 
   const extractCategories = (newsData) => (newsData ? [...new Set(newsData.map(({ category }) => category))] : []);
 
-  const getCurrentNewsData = (subscribeType) => NEWS_DATA_MAP[subscribeType] || [];
-
   const filterNewsByCategories = (newsItems, categories) => {
     return newsItems && newsItems.filter(({ category }) => categories.includes(category));
   };
 
-  useEffect(() => {
-    // const currentNewsData = getCurrentNewsData(tabType.subscribe);
+  const extractSubscribeCategory = () => {
+    const subscribedCategories = extractCategories(listNewsData);
+    const filteredNews = filterNewsByCategories(newsData.news, subscribedCategories);
+    if (!filteredNews) return;
+    const filteredCategories = extractCategories(filteredNews);
+    setCategories(filteredCategories);
+  };
 
+  useEffect(() => {
     if (tabType.subscribe === 'ALL_PRESS') {
-      setCategories(extractCategories(newsData.news));
+      setCategories(extractCategories(listNewsData));
       return;
     }
 
     if (tabType.subscribe === 'SUBSCRIBED_PRESS') {
-      const subscribedCategories = extractCategories(newsData.subscribe);
-      const filteredNews = filterNewsByCategories(newsData.news, subscribedCategories);
-      if (!filteredNews) return;
-      const filteredCategories = extractCategories(filteredNews);
-      setCategories(filteredCategories);
+      extractSubscribeCategory();
       return;
     }
-  }, [newsData, newsData.news, tabType.subscribe]);
+  }, [listNewsData]);
 
   useEffect(() => {
-    const currentNewsData = getCurrentNewsData(tabType.subscribe);
-    setListNewsData(extractNewsByCategory(currentNewsData));
-  }, [tabType.subscribe, categories, newsData]);
+    setListNewsByCategory(extractNewsByCategory(listNewsData));
+  }, [listNewsData]);
 
   useEffect(() => {
-    if (!listNewsData || !listNewsData[clickedCategoryIndex]) return;
-    setCurrentPageNewsData(listNewsData[clickedCategoryIndex][page]);
-  }, [tabType.subscribe, listNewsData, clickedCategoryIndex, page]);
+    if (!listNewsByCategory || !listNewsByCategory[clickedCategoryIndex]) return;
+
+    setCurrentPageNewsData(listNewsByCategory[clickedCategoryIndex][page]);
+  }, [tabType.subscribe, listNewsByCategory, clickedCategoryIndex, page]);
 
   const handleCategoryClick = (idx) => {
     setClickedCategoryIndex(idx);
@@ -78,7 +82,7 @@ export default function ListNews({ tabType, setTabType, clickedCategoryIndex, se
   };
 
   const nextArrowClick = () => {
-    const maxPage = listNewsData[clickedCategoryIndex].length;
+    const maxPage = listNewsByCategory[clickedCategoryIndex].length;
     if (page + 1 === maxPage) {
       setClickedCategoryIndex((prevIndex) => (prevIndex === categories.length - 1 ? 0 : prevIndex + 1));
       setPage((prev) => ({ ...prev, list: 0 }));
@@ -90,16 +94,18 @@ export default function ListNews({ tabType, setTabType, clickedCategoryIndex, se
 
   /** 구독 해지하기 */
   const unSubscribe = async (idToDelete) => {
-    // const deleteResult = await deleteSubscribeData(idToDelete);
-    // if (deleteResult.result) {
-    //   const data = await fetchNewsData({ type: 'news' });
-    //   setNewsData(data);
-    // }
+    const deleteResult = await deleteSubscribeData(idToDelete);
+    if (deleteResult.result) {
+      const selectAllResult = await selectAllSubscribeData();
+      if (selectAllResult.result) {
+        setDataByViewType((prev) => ({ ...prev, list: selectAllResult.data }));
+        // 카테고리인덱스랑 페이지도 바꿔야함
+      }
+    }
   };
 
   /** 구독하기 */
   const subscribe = async (subscribeObj) => {
-    console.log(subscribeObj);
     const insertResult = await insertSubscribeData(subscribeObj);
     const newNewsData = await fetchNewsData({ type: 'news' });
 
@@ -107,11 +113,12 @@ export default function ListNews({ tabType, setTabType, clickedCategoryIndex, se
 
     if (insertResult.result) {
       const selectAllResult = await selectAllSubscribeData();
-      if (selectAllResult.result) setSubscribes(selectAllResult.data);
+      if (selectAllResult.result) setDataByViewType((prev) => ({ ...prev, list: selectAllResult.data }));
 
       setTabType((prev) => ({ ...prev, subscribe: 'SUBSCRIBED_PRESS' }));
       setClickedCategoryIndex(0);
       setPage((prev) => ({ ...prev, list: 0 }));
+      extractSubscribeCategory();
     }
   };
 
@@ -122,11 +129,7 @@ export default function ListNews({ tabType, setTabType, clickedCategoryIndex, se
       return;
     }
     //해지하기
-    if (isSubscribed) {
-      unSubscribe(currentPageNewsData.id);
-    }
-    // if (tabType.subscribe === 'SUBSCRIBED_PRESS') {
-    // }
+    if (isSubscribed) unSubscribe(currentPageNewsData.id);
   };
 
   const isSubscribed = (newsId, subscribe) => subscribe && !!subscribe.find(({ id }) => id === newsId);
@@ -144,7 +147,9 @@ export default function ListNews({ tabType, setTabType, clickedCategoryIndex, se
               return (
                 <div key={`category${idx}`} onClick={() => handleCategoryClick(idx)}>
                   <span>{category}</span>
-                  <span style={{ marginLeft: '0.5rem' }}>{clickedCategoryIndex === idx && `${page + 1} / ${listNewsData[idx]?.length || 0}`}</span>
+                  <span style={{ marginLeft: '0.5rem' }}>
+                    {clickedCategoryIndex === idx && `${page + 1} / ${listNewsByCategory[idx]?.length || 0}`}
+                  </span>
                 </div>
               );
             })}

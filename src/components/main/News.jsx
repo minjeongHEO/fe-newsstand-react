@@ -8,7 +8,7 @@ import { selectAllSubscribeData } from '../../api/subscribeData';
 import { fetchNewsData } from '../../api/fetchNewsData';
 
 export default function News() {
-  const { gridRow, gridCol, gridMaxPage, subscribes, setSubscribes, newsData, setNewsData } = useContext(NewsContext);
+  const { gridRow, gridCol, gridMaxPage, newsData, setNewsData } = useContext(NewsContext);
 
   const [tabType, setTabType] = useState({ subscribe: 'ALL_PRESS', view: 'GRID_VIEW_TYPE' });
 
@@ -56,13 +56,16 @@ export default function News() {
    */
   const getListData = (type) => {
     const data = type === 'SUBSCRIBED_PRESS' ? newsData.subscribe : newsData.news;
-
     if (!data) return;
+
     if (data && !data.length) {
       setDataByViewType((prev) => ({ ...prev, list: [] }));
       return;
     }
+
+    setDataByViewType((prev) => ({ ...prev, list: data }));
   };
+
   /**
    * @param {String} type - 그리드 타입 데이터의 유형을 지정한다.
    *      "ALL_PRESS" : 전체 데이터
@@ -85,11 +88,6 @@ export default function News() {
     setDataByViewType((prev) => ({ ...prev, grid: maxPageData }));
   };
 
-  const initializeSubscribedData = async () => {
-    const selectAllResult = await selectAllSubscribeData();
-    if (selectAllResult.result) setSubscribes(selectAllResult.data);
-  };
-
   const initializeDataByType = () => {
     if (newsData) {
       if (tabType.view === 'GRID_VIEW_TYPE' && tabType.subscribe === 'ALL_PRESS') getGridData('ALL_PRESS');
@@ -101,11 +99,10 @@ export default function News() {
 
   useEffect(() => {
     if (newsData) {
-      initializeSubscribedData();
       setNewsData(newsData);
       initializeDataByType();
     }
-  }, [newsData]);
+  }, [newsData, tabType]);
 
   useEffect(() => {
     const initializeData = async () => {
@@ -122,7 +119,11 @@ export default function News() {
       <div className={styles.media__container}>
         {tabType.view === 'GRID_VIEW_TYPE' && <GridNews gridNewsData={dataByViewType.grid} page={page.grid} setPage={setPage} tabType={tabType} />}
         {tabType.view === 'LIST_VIEW_TYPE' && (
-          <ListNews {...{ tabType, setTabType, clickedCategoryIndex, setClickedCategoryIndex, setPage }} page={page.list} />
+          <ListNews
+            {...{ tabType, setTabType, setDataByViewType, clickedCategoryIndex, setClickedCategoryIndex, setPage }}
+            listNewsData={dataByViewType.list}
+            page={page.list}
+          />
         )}
       </div>
     </div>

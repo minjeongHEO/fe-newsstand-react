@@ -1,5 +1,44 @@
 {
-  "subscribe": [],
+  "subscribe": [
+    {
+      "id": "aab4",
+      "category": "종합/경제",
+      "pressName": "아시아경제",
+      "logoImageSrc": "https://s.pstatic.net/static/newsstand/2020/logo/light/0604/277.png",
+      "editedTime": "12월 12일 18:05 직접 편집",
+      "headline": {
+        "thumbnailSrc": "https://s.pstatic.net/dthumb.phinf/?src=%22https%3A%2F%2Fs.pstatic.net%2Fstatic%2Fnewsstand%2F2024%2F1212%2Farticle_img%2Fnew_main%2F9019%2F181614_001.jpg%22&type=nf312_208&service=navermain",
+        "title": "野6당, 두번째 '尹대통령 탄핵안' 국회 제출…14일 표결",
+        "href": "https://view.asiae.co.kr/article/2024121217470556190?utm_source=newsstand.naver.com&utm_medium=referral&utm_campaign=top1"
+      },
+      "sideNews": [
+        {
+          "href": "https://view.asiae.co.kr/article/2024121215584736643?utm_source=newsstand.naver.com&utm_medium=referral&utm_campaign=top2",
+          "title": "'사퇴 거부' 尹, 국무회의 안건 재가…행정권 행사 재개"
+        },
+        {
+          "href": "https://view.asiae.co.kr/article/2024121217472164801?utm_source=newsstand.naver.com&utm_medium=referral&utm_campaign=top3",
+          "title": "한동훈, 심야 윤리위 소집…'尹대통령 출당·제명' 논의"
+        },
+        {
+          "href": "https://view.asiae.co.kr/article/2024121215154581809?utm_source=newsstand.naver.com&utm_medium=referral&utm_campaign=bottom1",
+          "title": "\"술집여자라 손가락질 해도\"…탄핵집회서 마이크 잡은 여성이 한 말"
+        },
+        {
+          "href": "https://view.asiae.co.kr/article/2024121208460580983?utm_source=newsstand.naver.com&utm_medium=referral&utm_campaign=bottom2",
+          "title": "SF 영화 찍는줄…中 길거리 '스스로 움직이는 타이어' 알고보니"
+        },
+        {
+          "href": "https://view.asiae.co.kr/article/2024121212184997004?utm_source=newsstand.naver.com&utm_medium=referral&utm_campaign=right4",
+          "title": "‘입시비리·감찰무마’ 조국 대표 징역 2년 확정…내일 구속수감될 듯"
+        },
+        {
+          "href": "https://view.asiae.co.kr/article/2024121207194045222?utm_source=newsstand.naver.com&utm_medium=referral&utm_campaign=right5",
+          "title": "테슬라 주가 사상 최고치에, 머스크 순자산 630조(종합)"
+        }
+      ]
+    }
+  ],
   "news": [
     {
       "id": "aab4",
