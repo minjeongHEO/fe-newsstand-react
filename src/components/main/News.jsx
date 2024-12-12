@@ -120,7 +120,9 @@ export default function News() {
       <NavTab setOnClick={setOnClick} tabType={tabType} />
       <div className={styles.media__container}>
         {tabType.view === 'GRID_VIEW_TYPE' && <GridNews gridNewsData={dataByViewType.grid} page={page.grid} setPage={setPage} tabType={tabType} />}
-        {tabType.view === 'LIST_VIEW_TYPE' && <ListNews {...{ newsData, tabType, clickedCategoryIndex, setClickedCategoryIndex }} />}
+        {tabType.view === 'LIST_VIEW_TYPE' && (
+          <ListNews {...{ newsData, tabType, clickedCategoryIndex, setClickedCategoryIndex, setPage }} page={page.list} />
+        )}
       </div>
     </div>
   );

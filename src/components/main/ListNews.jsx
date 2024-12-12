@@ -3,12 +3,10 @@ import styles from './ListNews.module.scss';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { NewsContext } from '../../context/NewsContext';
 
-export default function ListNews({ newsData, tabType, clickedCategoryIndex, setClickedCategoryIndex }) {
+export default function ListNews({ newsData, tabType, clickedCategoryIndex, setClickedCategoryIndex, page, setPage }) {
   const [categories, setCategories] = useState([]);
   const [listNewsData, setListNewsData] = useState(null);
   const [currentPageNewsData, setCurrentPageNewsData] = useState(null);
-
-  const [page, setPage] = useState(0);
 
   const [news, setNews] = useState(newsData.news);
   const [subscribeNews, setSubscribeNews] = useState(newsData.subscribe);
@@ -64,26 +62,28 @@ export default function ListNews({ newsData, tabType, clickedCategoryIndex, setC
 
   const handleCategoryClick = (idx) => {
     setClickedCategoryIndex(idx);
-    setPage(0);
+    setPage((prev) => ({ ...prev, list: 0 }));
   };
 
   const prevArrowClick = () => {
     if (!page) {
       setClickedCategoryIndex((prevIndex) => (!prevIndex ? categories.length - 1 : prevIndex - 1));
-      setPage(0);
+      setPage((prev) => ({ ...prev, list: 0 }));
       return;
     }
-    setPage((prevPage) => prevPage - 1);
+
+    setPage((prev) => ({ ...prev, list: prev.list - 1 }));
   };
 
   const nextArrowClick = () => {
     const maxPage = listNewsData[clickedCategoryIndex].length;
     if (page + 1 === maxPage) {
       setClickedCategoryIndex((prevIndex) => (prevIndex === categories.length - 1 ? 0 : prevIndex + 1));
-      setPage(0);
+      setPage((prev) => ({ ...prev, list: 0 }));
       return;
     }
-    setPage((prevPage) => prevPage + 1);
+
+    setPage((prev) => ({ ...prev, list: prev.list + 1 }));
   };
 
   const unSubscribe = async (idToDelete) => {
@@ -117,7 +117,7 @@ export default function ListNews({ newsData, tabType, clickedCategoryIndex, setC
   //   }
   // };
 
-  // const isSubscribed = (newsId, subscribe) => !!subscribe.find(({ id }) => id === newsId);
+  const isSubscribed = (newsId, subscribe) => !!subscribe.find(({ id }) => id === newsId);
 
   return (
     <>
@@ -153,7 +153,7 @@ export default function ListNews({ newsData, tabType, clickedCategoryIndex, setC
                   aria-pressed="${pressedStatus}"
                   // onClick={() => handleSubscribe(currentPageNewsData, isSubscribed(currentPageNewsData.id, subscribe))}
                 >
-                  {/* {isSubscribed(currentPageNewsData.id, subscribe) ? '😥 해지하기' : ' 💙 구독하기'} */}
+                  {isSubscribed(currentPageNewsData.id, subscribeNews) ? '😥 해지하기' : ' 💙 구독하기'}
                 </button>
               </div>
 
