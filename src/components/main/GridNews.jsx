@@ -11,16 +11,13 @@ export default function GridNews({ gridNewsData, page, setPage, tabType }) {
   const { gridRow, gridCol, gridMaxPage, subscribes, setSubscribes, newsData, setNewsData } = useContext(NewsContext);
 
   const containerRef = useRef(null);
-  const [subscribeHeight, setSubscribeHeight] = useState(0);
-
-  const subscribedPressStyle = {
-    height: tabType.subscribe === 'SUBSCRIBED_PRESS' ? `${subscribeHeight}px` : `100%`,
-  };
 
   const gridStyle = {
     display: 'grid',
     gridTemplateColumns: `repeat(${gridCol}, 1fr)`,
-    height: tabType.subscribe === 'SUBSCRIBED_PRESS' ? null : `100%`,
+    gridTemplateRows: `repeat(${gridRow}, 1fr)`,
+    width: '100%',
+    height: '100%',
   };
 
   const prevArrowClick = () => setPage((prev) => ({ ...prev, grid: prev.grid - 1 }));
@@ -68,29 +65,13 @@ export default function GridNews({ gridNewsData, page, setPage, tabType }) {
     }
   };
 
-  useEffect(() => {
-    const gridContainer = containerRef.current;
-    if (!gridContainer) return;
-
-    const resizeObserver = new ResizeObserver((entries) => {
-      const entry = entries[0];
-      if (!entry) return;
-      const { blockSize: height } = entry.contentBoxSize[0];
-      const heigthStyles = height / gridRow - 4;
-      setSubscribeHeight(heigthStyles);
-    });
-
-    resizeObserver.observe(gridContainer);
-    return () => resizeObserver.unobserve(gridContainer);
-  }, []);
-
   return (
     <div ref={containerRef} className={styles.gridContainer}>
       <GridLine />
       {Array.isArray(gridNewsData) && gridNewsData.length > 0 && gridNewsData[page] ? (
         <div className={styles.media__grid_type__container} style={gridStyle}>
           {gridNewsData[page].map(({ id, logoImageSrc, pressName }) => (
-            <div key={id} id={id} style={subscribedPressStyle}>
+            <div key={id} id={id}>
               <a href="#" className={styles['media__subscription-news-view']}>
                 <img src={logoImageSrc} alt={pressName} className={styles['media__grid_type__news_logo']}></img>
               </a>
@@ -101,7 +82,6 @@ export default function GridNews({ gridNewsData, page, setPage, tabType }) {
           ))}
         </div>
       ) : null}
-
       {page > 0 && <LeftOutlined className={news.angle_left} onClick={prevArrowClick} />}
       {page < gridMaxPage - 1 && gridNewsData.length > 1 && <RightOutlined className={news.angle_right} onClick={nextArrowClick} />}
     </div>
