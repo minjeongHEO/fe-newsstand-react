@@ -1,4 +1,4 @@
-@import '../variable.scss';
+@use '../variable.scss' as *;
 
 .gridLine_Container {
   position: absolute;

@@ -1,7 +1,7 @@
-@import '../variable.scss';
+@use '../variable.scss' as *;
 
 .date {
-    font-size: 18px;
-    font-weight: 500;
-    color: $default-font-color;
+  font-size: 18px;
+  font-weight: 500;
+  color: $default-font-color;
 }

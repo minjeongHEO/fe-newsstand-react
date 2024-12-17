@@ -1,4 +1,4 @@
-@import '../variable.scss';
+@use '../variable.scss' as *;
 
 .logo {
   font-size: 1.8rem;

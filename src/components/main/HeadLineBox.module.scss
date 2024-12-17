@@ -1,4 +1,4 @@
-@import '../variable.scss';
+@use '../variable.scss' as *;
 
 .container {
   margin: 2px 98px 2px 98px;

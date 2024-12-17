@@ -1,26 +1,26 @@
-@import './reset.css';
-@import './variable.scss';
+@use './reset.css';
+@use './variable.scss' as *;
 @font-face {
-    font-family: 'Pretendard'; /* 사용하고 싶은 font-family명을 지정 */
-    src: url('../assets/font/PretendardVariable.ttf') format('opentype'); /* 폰트파일 불러오기 */
+  font-family: 'Pretendard'; /* 사용하고 싶은 font-family명을 지정 */
+  src: url('../assets/font/PretendardVariable.ttf') format('opentype'); /* 폰트파일 불러오기 */
 }
 
 :root {
-    font-family: Pretendard;
-    line-height: 1.5;
-    font-weight: 400;
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  font-family: Pretendard;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 li {
-    list-style: none;
+  list-style: none;
 }
 
 #wrap {
-    margin: 0 auto;
-    max-width: 1300px;
-    min-width: 650px;
+  margin: 0 auto;
+  max-width: 1300px;
+  min-width: 650px;
 }
