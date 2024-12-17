@@ -14,6 +14,7 @@ export default function ListNews({
   setClickedCategoryIndex,
   page,
   setPage,
+  changeTabType,
 }) {
   const { newsData, setNewsData } = useContext(NewsContext);
 
@@ -43,28 +44,6 @@ export default function ListNews({
     const filteredCategories = extractCategories(filteredNews);
     setCategories(filteredCategories);
   };
-
-  useEffect(() => {
-    if (tabType.subscribe === 'ALL_PRESS') {
-      setCategories(extractCategories(listNewsData));
-      return;
-    }
-
-    if (tabType.subscribe === 'SUBSCRIBED_PRESS') {
-      extractSubscribeCategory();
-      return;
-    }
-  }, [listNewsData]);
-
-  useEffect(() => {
-    setListNewsByCategory(extractNewsByCategory(listNewsData));
-  }, [listNewsData]);
-
-  useEffect(() => {
-    if (!listNewsByCategory || !listNewsByCategory[clickedCategoryIndex]) return;
-
-    setCurrentPageNewsData(listNewsByCategory[clickedCategoryIndex][page]);
-  }, [tabType.subscribe, listNewsByCategory, clickedCategoryIndex, page]);
 
   const handleCategoryClick = (idx) => {
     setClickedCategoryIndex(idx);
@@ -100,6 +79,7 @@ export default function ListNews({
       if (selectAllResult.result) {
         setDataByViewType((prev) => ({ ...prev, list: selectAllResult.data }));
         // 카테고리인덱스랑 페이지도 바꿔야함
+        // changeTabType['all-press-tab']();
       }
     }
   };
@@ -133,6 +113,52 @@ export default function ListNews({
   };
 
   const isSubscribed = (newsId, subscribe) => subscribe && !!subscribe.find(({ id }) => id === newsId);
+
+  // const actionAfterSubscriptions = (target, tabType) => {
+  //   switch (TAB_TYPE) {
+  //     case 'grid':
+  //       break;
+
+  //     case 'list':
+  //       target.innerText = 'x';
+  //       target.setAttribute('aria-pressed', 'true');
+
+  //       const snackbarTarget = document.querySelector('#media__subscribe_snackbar');
+  //       snackbarTarget.classList.add('snackbar-animation');
+
+  //       setTimeout(() => {
+  //         snackbarTarget.classList.remove('snackbar-animation');
+  //       }, 5000);
+
+  //       // 내가 구독한 탭바로 이동하기
+  //       document.querySelector('#my-press-tab').click();
+  //       break;
+
+  //     default:
+  //       break;
+  //   }
+  // };
+
+  useEffect(() => {
+    if (tabType.subscribe === 'ALL_PRESS') {
+      setCategories(extractCategories(listNewsData));
+      return;
+    }
+
+    if (tabType.subscribe === 'SUBSCRIBED_PRESS') {
+      extractSubscribeCategory();
+      return;
+    }
+  }, [listNewsData]);
+
+  useEffect(() => {
+    setListNewsByCategory(extractNewsByCategory(listNewsData));
+  }, [listNewsData]);
+
+  useEffect(() => {
+    if (!listNewsByCategory || !listNewsByCategory[clickedCategoryIndex]) return;
+    setCurrentPageNewsData(listNewsByCategory[clickedCategoryIndex][page]);
+  }, [tabType.subscribe, listNewsByCategory, clickedCategoryIndex, page]);
 
   return (
     <>
