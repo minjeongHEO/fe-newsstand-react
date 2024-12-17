@@ -22,6 +22,12 @@ jobs:
         with:
           node-version: '20'
 
+      # Corepack 활성화 및 Yarn 버전 설정 추가
+      - name: Enable Corepack
+        run: |
+          corepack enable
+          corepack prepare yarn@4.1.1 --activate
+
       - name: Install dependencies
         run: yarn install
 
